@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">Checkpoint</string>
+    <string name="app_name">CheckPoint</string>
+    <string name="app_description">Create flash cards and track your revision progress with CheckPoint!</string>
+
+    <string name="edit_message">Enter a Message</string>
+    <string name="button_send">Begin</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_display_message">DisplayMessageActivity</string>
+    <string name="title_activity_subject_select">SubjectSelect</string>
+
+    <string name="title_activity_add_subject">AddSubject</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_subject_overview">SubjectOverview</string>
 </resources>

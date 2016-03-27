@@ -15,6 +15,42 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".DisplayMessageActivity"
+            android:label="@string/title_activity_display_message"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.ncl.djwelsh.checkpoint.MainActivity" />
+        </activity>
+        <activity
+            android:name=".SubjectSelect"
+            android:label="@string/title_activity_subject_select"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.ncl.djwelsh.checkpoint.MainActivity" />
+        </activity>
+        <activity
+            android:name=".AddSubject"
+            android:label="@string/title_activity_add_subject"
+            android:parentActivityName=".SubjectSelect"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.ncl.djwelsh.checkpoint.SubjectSelect" />
+        </activity>
+        <activity
+            android:name=".SubjectOverview"
+            android:label="@string/title_activity_subject_overview"
+            android:parentActivityName=".SubjectSelect"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.ncl.djwelsh.checkpoint.SubjectSelect" />
+        </activity>
     </application>
 
 </manifest>
