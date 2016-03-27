@@ -2,27 +2,27 @@ package uk.ac.ncl.djwelsh.checkpoint;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class SubjectOverview extends AppCompatActivity {
 
-    private SubjectsDataSource datasource;
+    public final static String EXTRA_MESSAGE = "uk.ac.ncl.djwelsh.checkpoint.MESSAGE";
+
+    private SubjectsDataSource subjectDB;
+    private CardsDataSource cardsDB;
+    private ArrayAdapter<Card> adapter;
+    Subject subject = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject_overview);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         String rawId = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
@@ -31,16 +31,30 @@ public class SubjectOverview extends AppCompatActivity {
 
         System.out.println(id);
 
-        datasource = new SubjectsDataSource(this);
-        datasource.open();
+        subjectDB = new SubjectsDataSource(this);
+        subjectDB.open();
 
-        Subject subject = datasource.getSubject(id);
 
-        TextView textView = new TextView(this);
-        textView.setTextSize(40);
+        subject = subjectDB.getSubject(id);
+        subjectDB.close();
+
+        TextView textView = (TextView) findViewById(R.id.overview_title);
         textView.setText(subject.getName());
 
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.content);
-        layout.addView(textView);
+        cardsDB = new CardsDataSource(this);
+        cardsDB.open();
+
+        List<Card> values = cardsDB.getCardBySubject(Long.toString(subject.getId()));
+
+        adapter = new ArrayAdapter<Card>(this, android.R.layout.simple_list_item_1, values);
+        ListView listView = (ListView) findViewById(R.id.card_list);
+        listView.setAdapter(adapter);
+    }
+
+    public void addNewCard(View view) {
+
+        Intent intent = new Intent(this, AddCard.class);
+        intent.putExtra(EXTRA_MESSAGE, String.valueOf(subject.getId()));
+        startActivity(intent);
     }
 }

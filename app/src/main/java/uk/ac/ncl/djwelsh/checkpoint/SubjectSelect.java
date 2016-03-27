@@ -27,8 +27,6 @@ public class SubjectSelect extends AppCompatActivity {
 
         List<Subject> values = datasource.getAllSubjects();
 
-        // use the SimpleCursorAdapter to show the
-        // elements in a ListView
         adapter = new ArrayAdapter<Subject>(this, android.R.layout.simple_list_item_1, values);
         ListView listView = (ListView) findViewById(R.id.subject_list);
         listView.setAdapter(adapter);
@@ -36,9 +34,10 @@ public class SubjectSelect extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String message = Long.toString(id);
+                String message = String.valueOf(id);
+                System.out.println("MESSAGE TO ADD CARD:________________" + message + " " + message.getClass());
                 Intent intent = new Intent(SubjectSelect.this, SubjectOverview.class);
-                intent.putExtra(EXTRA_MESSAGE, message);
+                intent.putExtra(MainActivity.EXTRA_MESSAGE, message);
                 startActivity(intent);
             }
         });

@@ -5,8 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="uk.ac.ncl.djwelsh.checkpoint.AddSubject">
+    tools:context="uk.ac.ncl.djwelsh.checkpoint.AddCard">
 
-    <include layout="@layout/content_add_subject" />
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_add_card" />
 
 </android.support.design.widget.CoordinatorLayout>

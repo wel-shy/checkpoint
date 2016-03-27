@@ -51,6 +51,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uk.ac.ncl.djwelsh.checkpoint.SubjectSelect" />
         </activity>
+        <activity
+            android:name=".AddCard"
+            android:label="@string/title_activity_add_card"
+            android:parentActivityName=".AddSubject"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.ncl.djwelsh.checkpoint.AddSubject" />
+        </activity>
     </application>
 
 </manifest>
