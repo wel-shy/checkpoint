@@ -6,32 +6,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RatingBar;
-
-import javax.security.auth.SubjectDomainCombiner;
+import android.widget.TextView;
 
 public class AddCard extends AppCompatActivity {
 
-    String subject;
-    int cardCount = 0;
+    Subject subject;
+    int cardCount = 1;
 
     private CardsDataSource datasource;
+
+    public final static String EXTRA_MESSAGE = "uk.ac.ncl.djwelsh.checkpoint.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_card);
         Intent intent = getIntent();
-        String rawId = intent.getStringExtra(SubjectOverview.EXTRA_MESSAGE);
-        long id = Long.parseLong(rawId);
+        subject = intent.getParcelableExtra("subject");
 
-        subject = String.valueOf(id);
-        System.out.println("SUBJECT ID:_______________" + id);
+        System.out.println("SUBJECT ID:_______________" + subject.getId());
         datasource = new CardsDataSource(this);
         datasource.open();
     }
 
     /**
      * Save a card to the database.
+     *
+     * TODO fix rating being saved as 'subject'
      *
      * @param view
      */
@@ -45,7 +46,9 @@ public class AddCard extends AppCompatActivity {
                 rawCardName.getText().toString(),               // Name
                 rawQuestion.getText().toString(),               // Question
                 rawAnswer.getText().toString(),                 // Answer
-                subject,                                        // Subject
+                "0",                                            // Correct Count
+                "0",                                            // Incorrect Count
+                String.valueOf(subject.getId()),                                        // Subject
                 Integer.toString(rawDifficulty.getNumStars())   // Difficulty
         };
 
@@ -56,5 +59,22 @@ public class AddCard extends AppCompatActivity {
         rawQuestion.setText("");
         rawAnswer.setText("");
         rawDifficulty.setNumStars(0);
+
+        TextView counter = (TextView) findViewById(R.id.card_counters);
+        counter.setText("Card " + cardCount);
+    }
+
+    /**
+     * Finish creating deck and transfer back to subject overview.
+     *
+     * TODO Fix null subject
+     *
+     * @param view
+     */
+    public void finishDeck(View view) {
+
+        Intent intent = new Intent(null, SubjectOverview.class);
+        intent.putExtra("subject", subject);
+        startActivity(intent);
     }
 }

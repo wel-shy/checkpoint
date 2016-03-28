@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,6 +49,21 @@ public class SubjectOverview extends AppCompatActivity {
 
         adapter = new ArrayAdapter<Card>(this, android.R.layout.simple_list_item_1, values);
         ListView listView = (ListView) findViewById(R.id.card_list);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(SubjectOverview.this, CardOverview.class);
+
+                Card card = cardsDB.getCard(id);
+
+                System.out.println(card.getQuestion());
+
+                intent.putExtra("card", card);
+                startActivity(intent);
+            }
+        });
+
         listView.setAdapter(adapter);
     }
 

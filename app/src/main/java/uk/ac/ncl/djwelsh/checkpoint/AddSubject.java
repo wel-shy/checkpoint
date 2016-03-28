@@ -31,7 +31,7 @@ public class AddSubject extends AppCompatActivity {
         Subject sub = datasource.createSubject(name);
 
         Intent intent = new Intent(this, AddCard.class);
-        intent.putExtra(EXTRA_MESSAGE, sub.getId());
+        intent.putExtra("subject", sub);
         startActivity(intent);
     }
 

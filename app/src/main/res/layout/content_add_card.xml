@@ -56,30 +56,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/answer_prompt"
+        android:text="Choose a difficulty"
         android:id="@+id/textView4"
         android:textColor="@color/colorWhite"
-        android:layout_above="@+id/card_difficulty" />
+        android:layout_below="@+id/card_answer"
+        android:layout_alignParentStart="true" />
 
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/card_difficulty"
-        android:layout_above="@+id/save_card"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="62dp" />
+        android:layout_below="@+id/textView4"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_card_btn"
         android:id="@+id/save_card"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:textColor="@color/colorAccent"
         android:background="@drawable/main_button_box"
         android:padding="15dp"
-        android:onClick="saveCard" />
+        android:onClick="saveCard"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/card_difficulty"
+        android:layout_toStartOf="@+id/card_counters" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -110,4 +111,28 @@
         android:layout_above="@+id/card_title"
         android:layout_alignParentStart="true"
         android:textColor="@color/colorWhite" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Card 1"
+        android:id="@+id/card_counters"
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="36dp"
+        android:layout_below="@+id/card_difficulty"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Finish "
+        android:id="@+id/finish_cards"
+        android:textColor="@color/colorAccent"
+        android:background="@drawable/main_button_box"
+        android:padding="15dp"
+        android:onClick="finishDeck"
+        android:layout_alignTop="@+id/save_card"
+        android:layout_alignEnd="@+id/card_difficulty"
+        android:layout_toEndOf="@+id/card_counters" />
 </RelativeLayout>

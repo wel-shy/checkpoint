@@ -23,6 +23,8 @@ public class CardsDataSource {
             SQLHelper.CARDS_COLUMN_NAME,
             SQLHelper.CARDS_COLUMN_QUESTION,
             SQLHelper.CARDS_COLUMN_ANSWER,
+            SQLHelper.QUIZZES_COLUMN_CORRECT_COUNT,
+            SQLHelper.QUIZZES_COLUMN_INCORRECT_COUNT,
             SQLHelper.CARDS_COLUMN_SUBJECT,
             SQLHelper.CARDS_COLUMN_RATING,
     };
@@ -97,7 +99,10 @@ public class CardsDataSource {
      */
     public Card getCard(long id) {
 
+        id++;
         Card card = null;
+
+        System.out.println("Card search id" +  id);
 
         String query = "SELECT * FROM " + SQLHelper.TABLE_CARDS + " WHERE " + SQLHelper.CARDS_COLUMN_ID + " = " + id;
         Cursor cursor = database.rawQuery(query, null);

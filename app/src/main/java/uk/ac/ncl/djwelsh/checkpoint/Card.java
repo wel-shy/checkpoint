@@ -1,11 +1,14 @@
 package uk.ac.ncl.djwelsh.checkpoint;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Daniel on 27/03/16.
  *
  * Representation of a Card.
  */
-public class Card {
+public class Card implements Parcelable{
 
     private long id;
     private String name;
@@ -24,6 +27,16 @@ public class Card {
         this.answer = answer;
         this.subject = subject;
         this.rating = rating;
+    }
+
+    public Card(Parcel in) {
+
+        this.id = in.readLong();
+        this.name = in.readString();
+        this.question = in.readString();
+        this.answer = in.readString();
+        this.subject = in.readString();
+        this.rating = in.readString();
     }
 
     public long getId() {
@@ -76,14 +89,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return "Card{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", question='" + question + '\'' +
-                ", answer='" + answer + '\'' +
-                ", subject='" + subject + '\'' +
-                ", rating='" + rating + '\'' +
-                '}';
+        return getQuestion();
     }
 
     @Override
@@ -112,4 +118,31 @@ public class Card {
         result = 31 * result + getRating().hashCode();
         return result;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeLong(id);
+        dest.writeString(name);
+        dest.writeString(question);
+        dest.writeString(answer);
+        dest.writeString(subject);
+        dest.writeString(rating);
+    }
+
+    // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<Card> CREATOR = new Parcelable.Creator<Card>() {
+        public Card createFromParcel(Parcel in) {
+            return new Card(in);
+        }
+
+        public Card[] newArray(int size) {
+            return new Card[size];
+        }
+    };
 }

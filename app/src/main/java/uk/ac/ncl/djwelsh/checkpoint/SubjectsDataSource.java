@@ -11,6 +11,8 @@ import java.util.List;
 
 /**
  * Created by Daniel on 27/03/16.
+ *
+ * Class to manage Subject resources in database.
  */
 public class SubjectsDataSource {
 
@@ -34,9 +36,19 @@ public class SubjectsDataSource {
     }
 
     public Subject createSubject(String name) {
+
         ContentValues values = new ContentValues();
         values.put(SQLHelper.SUBJECTS_COLUMN_NAME, name);
+        values.put(SQLHelper.SUBJECTS_COLUMN_SCORE, "0");
+
+        Cursor c = database.rawQuery("SELECT sql FROM sqlite_master WHERE tbl_name = 'subjects' AND type = 'table'", null);
+        c.moveToFirst();
+        System.out.println("____________________" + c.getString(0));
+//        System.out.println("____________________" + c.getLong(1));
+//        System.out.println("____________________" + c.getLong(2));
+
         long insertId = database.insert(SQLHelper.TABLE_SUBJECTS, null, values);
+
         Cursor cursor = database.query(SQLHelper.TABLE_SUBJECTS,
                 allColumns, SQLHelper.SUBJECTS_COLUMN_ID + " = " + insertId, null,
                 null, null, null);
