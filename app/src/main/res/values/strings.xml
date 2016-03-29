@@ -39,4 +39,6 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_add_card">AddCard</string>
     <string name="title_activity_card_overview">CardOverview</string>
+    <string name="title_activity_start_quiz">StartQuiz</string>
+    <string name="title_activity_play_quiz">PlayQuiz</string>
 </resources>

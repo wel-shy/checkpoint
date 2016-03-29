@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="uk.ac.ncl.djwelsh.checkpoint">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -68,6 +71,24 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uk.ac.ncl.djwelsh.checkpoint.SubjectOverview" />
+        </activity>
+        <activity
+            android:name=".StartQuiz"
+            android:label="@string/title_activity_start_quiz"
+            android:parentActivityName=".SubjectOverview"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.ncl.djwelsh.checkpoint.SubjectOverview" />
+        </activity>
+        <activity
+            android:name=".PlayQuiz"
+            android:label="@string/title_activity_play_quiz"
+            android:parentActivityName=".StartQuiz"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.ncl.djwelsh.checkpoint.StartQuiz" />
         </activity>
     </application>
 

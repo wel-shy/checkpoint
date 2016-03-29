@@ -15,6 +15,7 @@ import java.util.List;
  * Created by Daniel on 27/03/16.
  */
 public class CardsDataSource {
+
     private SQLiteDatabase database;
     private SQLHelper dbHelper;
 
@@ -23,8 +24,8 @@ public class CardsDataSource {
             SQLHelper.CARDS_COLUMN_NAME,
             SQLHelper.CARDS_COLUMN_QUESTION,
             SQLHelper.CARDS_COLUMN_ANSWER,
-            SQLHelper.QUIZZES_COLUMN_CORRECT_COUNT,
-            SQLHelper.QUIZZES_COLUMN_INCORRECT_COUNT,
+            SQLHelper.CARDS_COLUMN_CORRECT_COUNT,
+            SQLHelper.CARDS_COLUMN_INCORRECT_COUNT,
             SQLHelper.CARDS_COLUMN_SUBJECT,
             SQLHelper.CARDS_COLUMN_RATING,
     };
@@ -181,6 +182,9 @@ public class CardsDataSource {
         card.setAnswer(cursor.getString(3));
         card.setSubject(cursor.getString(4));
         card.setRating(cursor.getColumnName(5));
+        card.setNumCorrect(Integer.valueOf(cursor.getColumnName(6)));
+        card.setNumIncorrect(Integer.valueOf(cursor.getColumnName(7)));
+        card.setPercentCorrect(Double.valueOf(cursor.getColumnName(8)));
 
         return card;
     }

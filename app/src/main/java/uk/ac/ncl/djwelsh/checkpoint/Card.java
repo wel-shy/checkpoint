@@ -16,6 +16,9 @@ public class Card implements Parcelable{
     private String answer;
     private String subject;
     private String rating;
+    private int numCorrect;
+    private int numIncorrect;
+    private double percentCorrect;
 
     public Card(){
 
@@ -37,6 +40,9 @@ public class Card implements Parcelable{
         this.answer = in.readString();
         this.subject = in.readString();
         this.rating = in.readString();
+        this.numCorrect = in.readInt();
+        this.numIncorrect = in.readInt();
+        this.percentCorrect = in.readDouble();
     }
 
     public long getId() {
@@ -87,6 +93,30 @@ public class Card implements Parcelable{
         this.rating = rating;
     }
 
+    public int getNumCorrect() {
+        return numCorrect;
+    }
+
+    public void setNumCorrect(int numCorrect) {
+        this.numCorrect = numCorrect;
+    }
+
+    public int getNumIncorrect() {
+        return numIncorrect;
+    }
+
+    public void setNumIncorrect(int numIncorrect) {
+        this.numIncorrect = numIncorrect;
+    }
+
+    public double getPercentCorrect() {
+        return percentCorrect;
+    }
+
+    public void setPercentCorrect(double precentCorrect) {
+        this.percentCorrect = precentCorrect;
+    }
+
     @Override
     public String toString() {
         return getQuestion();
@@ -133,6 +163,9 @@ public class Card implements Parcelable{
         dest.writeString(answer);
         dest.writeString(subject);
         dest.writeString(rating);
+        dest.writeInt(numCorrect);
+        dest.writeInt(numIncorrect);
+        dest.writeDouble(percentCorrect);
     }
 
     // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods

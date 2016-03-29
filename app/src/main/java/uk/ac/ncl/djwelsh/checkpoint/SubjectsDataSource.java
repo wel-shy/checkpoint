@@ -44,8 +44,6 @@ public class SubjectsDataSource {
         Cursor c = database.rawQuery("SELECT sql FROM sqlite_master WHERE tbl_name = 'subjects' AND type = 'table'", null);
         c.moveToFirst();
         System.out.println("____________________" + c.getString(0));
-//        System.out.println("____________________" + c.getLong(1));
-//        System.out.println("____________________" + c.getLong(2));
 
         long insertId = database.insert(SQLHelper.TABLE_SUBJECTS, null, values);
 
@@ -72,8 +70,6 @@ public class SubjectsDataSource {
         String query = "SELECT * FROM " + SQLHelper.TABLE_SUBJECTS + " WHERE " + SQLHelper.SUBJECTS_COLUMN_ID + " = " + id;
         Cursor cursor = database.rawQuery(query, null);
 
-//        System.out.println(cursor.getLong(0));
-
         if( cursor != null && cursor.moveToFirst() ) {
             subject = cursorToSubject(cursor);
             cursor.close();
@@ -95,7 +91,7 @@ public class SubjectsDataSource {
             comments.add(comment);
             cursor.moveToNext();
         }
-        // make sure to close the cursor
+
         cursor.close();
         return comments;
     }
