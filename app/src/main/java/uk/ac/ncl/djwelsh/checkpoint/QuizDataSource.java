@@ -184,7 +184,7 @@ public class QuizDataSource {
         subject = subjectDB.getSubject(Long.valueOf(cursor.getString(2)));
 
         quiz.setId(cursor.getLong(0));
-        quiz.setType(cursor.getString(1));
+        quiz.setQuizType(cursor.getString(1));
         quiz.setSubject(subject);
         quiz.setPoints(Integer.valueOf(cursor.getString(3)));
         quiz.setDate(cursor.getString(4));

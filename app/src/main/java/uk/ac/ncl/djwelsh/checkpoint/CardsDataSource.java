@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -66,9 +67,18 @@ public class CardsDataSource {
     public Card createCard(String[] data) {
         ContentValues values = new ContentValues();
 
-        for (int i = 0; i < allColumns.length - 1; i++) {
-            values.put(allColumns[i + 1], data[i]);
+        System.out.println(Arrays.toString(data));
+        for (int i = 1; i < allColumns.length - 1; i++) {
+            values.put(allColumns[i], data[i - 1]);
         }
+
+        values.put(allColumns[1], data[0]); // name
+        values.put(allColumns[2], data[1]); // question
+        values.put(allColumns[3], data[2]); // answer
+        values.put(allColumns[4], data[3]); // correct_count
+        values.put(allColumns[5], data[4]); // incorrect_count
+        values.put(allColumns[6], data[5]); // subject
+        values.put(allColumns[7], data[6]); // rating
 
         long insertId = database.insert(SQLHelper.TABLE_CARDS, null, values);
         Cursor cursor = database.query(SQLHelper.TABLE_CARDS,
@@ -181,10 +191,9 @@ public class CardsDataSource {
         card.setQuestion(cursor.getString(2));
         card.setAnswer(cursor.getString(3));
         card.setSubject(cursor.getString(4));
-        card.setRating(cursor.getColumnName(5));
-        card.setNumCorrect(Integer.valueOf(cursor.getColumnName(6)));
-        card.setNumIncorrect(Integer.valueOf(cursor.getColumnName(7)));
-        card.setPercentCorrect(Double.valueOf(cursor.getColumnName(8)));
+        card.setRating(cursor.getString(5));
+        card.setNumCorrect(Integer.valueOf(cursor.getString(6)));
+        card.setNumIncorrect(Integer.valueOf(cursor.getString(7)));
 
         return card;
     }

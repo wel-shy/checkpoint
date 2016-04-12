@@ -44,20 +44,37 @@ public class StartQuiz extends AppCompatActivity {
             }
         });
 
-        quiz.setType("easiestToHardest");
+        quiz.setQuizType("easiestToHardest");
         quiz.setCorrectCount(0);
         quiz.setIncorrectCount(0);
 
-        Intent intent = new Intent(null, PlayQuiz.class);
+        Intent intent = new Intent(this, PlayQuiz.class);
         intent.putExtra("quiz", quiz);
+        startActivity(intent);
     }
 
     public void startQuickFire(View view) {
 
+        quiz.setQuizType("quickFire");
+        quiz.setCorrectCount(0);
+        quiz.setIncorrectCount(0);
+
+        Intent intent = new Intent(this, PlayQuiz.class);
+        intent.putExtra("quiz", quiz);
+
+        System.out.println("PRE:    " + quiz.toString());
+        startActivity(intent);
     }
 
     public void startRandom(View view) {
 
+        quiz.setQuizType("random");
+        quiz.setCorrectCount(0);
+        quiz.setIncorrectCount(0);
+
+        Intent intent = new Intent(this, PlayQuiz.class);
+        intent.putExtra("quiz", quiz);
+        startActivity(intent);
     }
 
     public void startByPercentWrong() {

@@ -30,7 +30,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     //Quiz
     public static final String TABLE_QUIZZES = "quizzes";
     public static final String QUIZZES_COLUMN_ID = "_id";
-    public static final String QUIZZES_COLUMN_TYPE = "type";
+    public static final String QUIZZES_COLUMN_TYPE = "quizType";
     public static final String QUIZZES_COLUMN_SUBJECT = "subject";
     public static final String QUIZZES_COLUMN_POINTS = "points";
     public static final String QUIZZES_COLUMN_DATE = "date";

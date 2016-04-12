@@ -70,7 +70,14 @@ public class SubjectOverview extends AppCompatActivity {
     public void addNewCard(View view) {
 
         Intent intent = new Intent(this, AddCard.class);
-        intent.putExtra(EXTRA_MESSAGE, String.valueOf(subject.getId()));
+        intent.putExtra("subject", subject);
+        startActivity(intent);
+    }
+
+    public void selectQuizType (View view) {
+
+        Intent intent = new Intent(this, StartQuiz.class);
+        intent.putExtra("subject", subject);
         startActivity(intent);
     }
 }

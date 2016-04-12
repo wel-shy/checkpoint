@@ -17,7 +17,7 @@ import java.util.Random;
 public class Deck implements Parcelable{
 
     List<Card> cards;
-    int deckLength = cards.size();
+    int deckLength;
     CardsDataSource cardsDB;
 
     public Deck(Subject subject, Context context) {
@@ -26,7 +26,7 @@ public class Deck implements Parcelable{
         cardsDB.open();
 
         cards = cardsDB.getCardBySubject(String.valueOf(subject.getId()));
-
+        deckLength = cards.size();
         cardsDB.close();
     }
 
@@ -40,7 +40,7 @@ public class Deck implements Parcelable{
         this.deckLength = in.readInt();
 
         for(int i = 0; i < deckLength; i++) {
-            Card card = in.readParcelable(getClass().getClassLoader());
+            Card card = (Card) in.readParcelable(getClass().getClassLoader());
             cards.add(card);
         }
     }
@@ -62,7 +62,7 @@ public class Deck implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
-        dest.writeInt(deckLength);
+        dest.writeInt(cards.size());
 
         for (int i = 0; i < cards.size(); i++) {
             dest.writeParcelable(cards.get(i), flags);
@@ -80,4 +80,7 @@ public class Deck implements Parcelable{
         }
     };
 
+    public Card getCard(int idx) {
+        return cards.get(idx);
+    }
 }

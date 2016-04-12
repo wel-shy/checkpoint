@@ -24,7 +24,7 @@ public class AddCard extends AppCompatActivity {
         Intent intent = getIntent();
         subject = intent.getParcelableExtra("subject");
 
-        System.out.println("SUBJECT ID:_______________" + subject.getId());
+//        System.out.println("SUBJECT ID:_______________" + subject.getId());
         datasource = new CardsDataSource(this);
         datasource.open();
     }
@@ -38,7 +38,7 @@ public class AddCard extends AppCompatActivity {
      */
     public void saveCard(View view) {
         EditText rawCardName = (EditText) findViewById(R.id.card_title);
-        EditText rawQuestion = (EditText) findViewById(R.id.card_question);
+        EditText rawQuestion = (EditText) findViewById(R.id.card_overview_question);
         EditText rawAnswer = (EditText) findViewById(R.id.card_answer);
         RatingBar rawDifficulty = (RatingBar) findViewById(R.id.card_difficulty);
 
@@ -48,7 +48,7 @@ public class AddCard extends AppCompatActivity {
                 rawAnswer.getText().toString(),                 // Answer
                 "0",                                            // Correct Count
                 "0",                                            // Incorrect Count
-                String.valueOf(subject.getId()),                                        // Subject
+                String.valueOf(subject.getId()),                // Subject
                 Integer.toString(rawDifficulty.getNumStars())   // Difficulty
         };
 

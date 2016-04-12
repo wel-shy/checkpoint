@@ -16,9 +16,12 @@ public class CardOverview extends AppCompatActivity {
         Card card = (Card) intent.getParcelableExtra("card");
 
         TextView textView = (TextView) findViewById(R.id.card_overview_name);
+        textView.setText(card.getName());
+
+        textView = (TextView) findViewById(R.id.card_overview_question);
         textView.setText(card.getQuestion());
 
-        Quiz q = new Quiz(null, null);
-        textView.setText(q.date);
+        textView = (TextView) findViewById(R.id.card_overview_answer);
+        textView.setText(card.getAnswer());
     }
 }

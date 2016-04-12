@@ -3,9 +3,6 @@ package uk.ac.ncl.djwelsh.checkpoint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.sql.Timestamp;
-import java.util.List;
-
 /**
  * Created by Daniel on 28/03/16.
  *
@@ -13,17 +10,17 @@ import java.util.List;
  */
 public class Quiz implements Parcelable{
 
-    long id;
-    int points;
-    String type;
-    Subject subject;
-    Deck deck;
-    int currentCard;
-    int correctCount;
-    int incorrectCount;
-    int currentCorrectCount;
-    int currentIncorrectCount;
-    String date;
+    private long id;
+    private int points;
+    private String quizType;
+    private Subject subject;
+    private Deck deck;
+    private int currentCardIdx = 0;
+    private int correctCount = 0;
+    private int incorrectCount = 0;
+    private int currentCorrectCount = 0;
+    private int currentIncorrectCount = 0;
+    private String date;
 
     public Quiz() {
 
@@ -38,7 +35,12 @@ public class Quiz implements Parcelable{
         this.subject = subject;
         this.deck = deck;
 
-        date = new java.util.Date().toString();
+        this.date = new java.util.Date().toString();
+        this.currentCardIdx = 0;
+        this.correctCount = 0;
+        this.incorrectCount = 0;
+        this.currentCorrectCount = 0;
+        this.currentIncorrectCount = 0;
     }
 
     /**
@@ -47,15 +49,17 @@ public class Quiz implements Parcelable{
      * @param in
      */
     public Quiz(Parcel in) {
-        points = in.readInt();
-        subject = in.readParcelable(getClass().getClassLoader());
-        deck = in.readParcelable(getClass().getClassLoader());
-        currentCard = in.readInt();
-        correctCount = in.readInt();
-        incorrectCount = in.readInt();
-        currentCorrectCount = in.readInt();
-        currentIncorrectCount = in.readInt();
-        date = in.readString();
+        this.id = in.readLong();
+        this.points = in.readInt();
+        this.quizType = in.readString();
+        this.subject = in.readParcelable(getClass().getClassLoader());
+        this.deck = in.readParcelable(getClass().getClassLoader());
+        this.currentCardIdx = in.readInt();
+        this.correctCount = in.readInt();
+        this.incorrectCount = in.readInt();
+        this.currentCorrectCount = in.readInt();
+        this.currentIncorrectCount = in.readInt();
+        this.date = in.readString();
     }
 
     public long getId() {
@@ -74,12 +78,12 @@ public class Quiz implements Parcelable{
         this.points = points;
     }
 
-    public String getType() {
-        return type;
+    public String getQuizType() {
+        return quizType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setQuizType(String quizType) {
+        this.quizType = quizType;
     }
 
     public Subject getSubject() {
@@ -98,12 +102,12 @@ public class Quiz implements Parcelable{
         this.deck = deck;
     }
 
-    public int getCurrentCard() {
-        return currentCard;
+    public int getCurrentCardIdx() {
+        return currentCardIdx;
     }
 
-    public void setCurrentCard(int currentCard) {
-        this.currentCard = currentCard;
+    public void setCurrentCardIdx(int currentCardIdx) {
+        this.currentCardIdx = currentCardIdx;
     }
 
     public int getCorrectCount() {
@@ -162,10 +166,12 @@ public class Quiz implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
+        dest.writeLong(id);
         dest.writeInt(points);
+        dest.writeString(quizType);
         dest.writeParcelable(subject, flags);
         dest.writeParcelable(deck, flags);
-        dest.writeInt(currentCard);
+        dest.writeInt(currentCardIdx);
         dest.writeInt(correctCount);
         dest.writeInt(incorrectCount);
         dest.writeInt(currentCorrectCount);
@@ -183,4 +189,26 @@ public class Quiz implements Parcelable{
             return new Quiz[size];
         }
     };
+
+    public Card getCurrentCard() {
+
+        return deck.getCard(currentCardIdx);
+    }
+
+    @Override
+    public String toString() {
+        return "Quiz{" +
+                "id=" + id +
+                ", points=" + points +
+                ", quizType='" + quizType + '\'' +
+                ", subject=" + subject +
+                ", deck=" + deck +
+                ", currentCardIdx=" + currentCardIdx +
+                ", correctCount=" + correctCount +
+                ", incorrectCount=" + incorrectCount +
+                ", currentCorrectCount=" + currentCorrectCount +
+                ", currentIncorrectCount=" + currentIncorrectCount +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }
