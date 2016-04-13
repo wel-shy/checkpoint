@@ -90,6 +90,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uk.ac.ncl.djwelsh.checkpoint.StartQuiz" />
         </activity>
+        <activity
+            android:name=".QuizResults"
+            android:label="@string/title_activity_quiz_results"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -34,14 +34,18 @@
     <string name="edit_message">Enter a Message</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_display_message">DisplayMessageActivity</string>
-    <string name="title_activity_subject_select">SubjectSelect</string>
+    <string name="title_activity_subject_select">Select Subject</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="title_activity_add_card">AddCard</string>
-    <string name="title_activity_card_overview">CardOverview</string>
-    <string name="title_activity_start_quiz">StartQuiz</string>
-    <string name="title_activity_play_quiz">PlayQuiz</string>
+    <string name="title_activity_add_card">Add a Card</string>
+    <string name="title_activity_card_overview">Card Overview</string>
+    <string name="title_activity_start_quiz">Start Quiz</string>
+    <string name="title_activity_play_quiz">Quiz</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_quiz_results">QuizResults</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 </resources>

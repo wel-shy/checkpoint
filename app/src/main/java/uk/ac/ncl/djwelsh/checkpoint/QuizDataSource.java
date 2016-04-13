@@ -60,17 +60,24 @@ public class QuizDataSource {
     }
 
     /**
-     * Create card and store in database.
+     * Create quiz and store in database.
      *
-     * @param data
+     * @param
      * @return
      */
-    public Quiz createQuiz(String[] data) {
+    public Quiz storeQuiz(Quiz quiz) {
         ContentValues values = new ContentValues();
 
-        for (int i = 0; i < allColumns.length - 1; i++) {
-            values.put(allColumns[i + 1], data[i]);
-        }
+//        for (int i = 0; i < allColumns.length - 1; i++) {
+//            values.put(allColumns[i + 1], data[i]);
+//        }
+
+        values.put(allColumns[1], quiz.getQuizType());
+        values.put(allColumns[2], String.valueOf(quiz.getSubject().getId()));
+        values.put(allColumns[3], String.valueOf(quiz.getPoints()));
+        values.put(allColumns[4], quiz.getDate());
+        values.put(allColumns[5], String.valueOf(quiz.getCorrectCount()));
+        values.put(allColumns[6], String.valueOf(quiz.getIncorrectCount()));
 
         long insertId = database.insert(SQLHelper.TABLE_QUIZZES, null, values);
         Cursor cursor = database.query(SQLHelper.TABLE_QUIZZES,

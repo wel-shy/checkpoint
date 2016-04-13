@@ -123,6 +123,11 @@ public class PlayQuiz extends AppCompatActivity {
             timer.cancel();
         }
         infContainer.setText("FINISHED");
+
+        QuizDataSource quizDB = new QuizDataSource(this);
+        quizDB.open();
+        quizDB.storeQuiz(quiz);
+        quizDB.close();
     }
 
     private void updatePoints() {}
