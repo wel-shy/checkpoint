@@ -1,5 +1,6 @@
 package uk.ac.ncl.djwelsh.checkpoint;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -178,4 +179,11 @@ public class Card implements Parcelable{
             return new Card[size];
         }
     };
+
+    public void updataCard(Context context){
+        CardsDataSource db = new CardsDataSource(context);
+        db.open();
+        db.updateCard(id);
+        db.close();
+    }
 }
