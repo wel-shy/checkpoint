@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void launchApp(View view) {
 
-        Intent intent = new Intent(this, SubjectSelect.class);
+        Intent intent = new Intent(this, SubjectList.class);
         startActivity(intent);
         finish();
     }

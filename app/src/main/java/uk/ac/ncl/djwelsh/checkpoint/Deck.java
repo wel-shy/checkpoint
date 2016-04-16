@@ -83,4 +83,8 @@ public class Deck implements Parcelable{
     public Card getCard(int idx) {
         return cards.get(idx);
     }
+
+    public List<Card> getCards() {
+        return cards;
+    }
 }

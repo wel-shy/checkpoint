@@ -195,8 +195,8 @@ public class QuizDataSource {
         quiz.setSubject(subject);
         quiz.setPoints(Integer.valueOf(cursor.getString(3)));
         quiz.setDate(cursor.getString(4));
-        quiz.setCorrectCount(Integer.valueOf(cursor.getColumnName(5)));
-        quiz.setIncorrectCount(Integer.valueOf(cursor.getColumnName(6)));
+        quiz.setCorrectCount(Integer.valueOf(cursor.getString(5)));
+        quiz.setIncorrectCount(Integer.valueOf(cursor.getString(6)));
 
         return quiz;
     }

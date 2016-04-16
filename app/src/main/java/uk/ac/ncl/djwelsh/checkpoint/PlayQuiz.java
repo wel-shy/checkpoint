@@ -96,7 +96,9 @@ public class PlayQuiz extends AppCompatActivity {
     // TODO add points rating.
     public void correctAnswer(View view) {
         quiz.setCurrentCardIdx(quiz.getCurrentCardIdx() + 1);
-        currentPoints += 10;
+//        currentPoints += 10;
+        quiz.setPoints(quiz.getPoints() + 10);
+        quiz.setCorrectCount(quiz.getCorrectCount() + 1);
         points.setText(String.valueOf(currentPoints));
 
         if(quiz.getCurrentCardIdx() == quiz.getDeck().deckLength){
@@ -109,6 +111,7 @@ public class PlayQuiz extends AppCompatActivity {
 
     public void incorrectAnswer(View view) {
         quiz.setCurrentCardIdx(quiz.getCurrentCardIdx() + 1);
+        quiz.setIncorrectCount(quiz.getIncorrectCount() + 1);
 
         if(quiz.getCurrentCardIdx() == quiz.getDeck().deckLength){
             finishQuiz();
@@ -124,10 +127,16 @@ public class PlayQuiz extends AppCompatActivity {
         }
         infContainer.setText("FINISHED");
 
+//        quiz.setPoints(currentPoints);
+
         QuizDataSource quizDB = new QuizDataSource(this);
         quizDB.open();
         quizDB.storeQuiz(quiz);
         quizDB.close();
+
+        Intent intent = new Intent(this, ViewQuizResults.class);
+        intent.putExtra("subject", quiz.getSubject());
+        startActivity(intent);
     }
 
     private void updatePoints() {}

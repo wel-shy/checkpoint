@@ -39,7 +39,7 @@ public class AddCard extends AppCompatActivity {
     public void saveCard(View view) {
         EditText rawCardName = (EditText) findViewById(R.id.card_title);
         EditText rawQuestion = (EditText) findViewById(R.id.card_overview_question);
-        EditText rawAnswer = (EditText) findViewById(R.id.card_answer);
+        EditText rawAnswer = (EditText) findViewById(R.id.card_question);
         RatingBar rawDifficulty = (RatingBar) findViewById(R.id.card_difficulty);
 
         String[] data = {
@@ -73,7 +73,7 @@ public class AddCard extends AppCompatActivity {
      */
     public void finishDeck(View view) {
 
-        Intent intent = new Intent(null, SubjectOverview.class);
+        Intent intent = new Intent(this, SubjectOverview.class);
         intent.putExtra("subject", subject);
         startActivity(intent);
     }

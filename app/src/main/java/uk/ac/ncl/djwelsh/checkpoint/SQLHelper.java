@@ -38,7 +38,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     public static final String QUIZZES_COLUMN_INCORRECT_COUNT = "incorrect_count";
     //DB
     private static final String DATABASE_NAME = "cards.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     // Database creation sql statements
     private static final String CREATE_SUBJECTS_TABLE = "create table "

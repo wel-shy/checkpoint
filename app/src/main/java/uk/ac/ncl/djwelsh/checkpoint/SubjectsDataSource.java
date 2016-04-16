@@ -41,9 +41,9 @@ public class SubjectsDataSource {
         values.put(SQLHelper.SUBJECTS_COLUMN_NAME, name);
         values.put(SQLHelper.SUBJECTS_COLUMN_SCORE, "0");
 
-        Cursor c = database.rawQuery("SELECT sql FROM sqlite_master WHERE tbl_name = 'subjects' AND quizType = 'table'", null);
-        c.moveToFirst();
-        System.out.println("____________________" + c.getString(0));
+//        Cursor c = database.rawQuery("SELECT sql FROM sqlite_master WHERE tbl_name = 'subjects' AND quizType = 'table'", null);
+//        c.moveToFirst();
+//        System.out.println("____________________" + c.getString(0));
 
         long insertId = database.insert(SQLHelper.TABLE_SUBJECTS, null, values);
 
@@ -75,7 +75,7 @@ public class SubjectsDataSource {
             cursor.close();
         }
 
-        System.out.println(subject.toString());
+//        System.out.println(subject.toString());
         return subject;
     }
 

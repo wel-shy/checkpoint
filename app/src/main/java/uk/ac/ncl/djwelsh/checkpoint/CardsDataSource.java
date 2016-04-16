@@ -177,6 +177,22 @@ public class CardsDataSource {
         return cards;
     }
 
+    public Card updateCard(long id) {
+        Card card = getCard(id);
+
+        ContentValues values = new ContentValues();
+        values.put(allColumns[1], card.getName());
+        values.put(allColumns[2], card.getQuestion());
+        values.put(allColumns[3], card.getAnswer());
+        values.put(allColumns[4], card.getNumCorrect());
+        values.put(allColumns[5], card.getNumIncorrect());
+        values.put(allColumns[7], card.getRating());
+
+        database.update(SQLHelper.TABLE_CARDS, values, allColumns[0] + " = ?", new String[]{String.valueOf(id)});
+
+        return card;
+    }
+
     /**
      * Parse cursor to card.
      *

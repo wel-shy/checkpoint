@@ -29,6 +29,7 @@
         </activity>
         <activity
             android:name=".SubjectSelect"
+            android:icon="@drawable/ic_menu_white_48dp"
             android:label="@string/title_activity_subject_select"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -93,7 +94,61 @@
         <activity
             android:name=".QuizResults"
             android:label="@string/title_activity_quiz_results"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ViewQuizResults"
+            android:label="@string/title_activity_view_quiz_results"
+            android:parentActivityName=".QuizResults"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.ncl.djwelsh.checkpoint.QuizResults" />
+        </activity>
+        <activity
+            android:name=".SubjectList"
+            android:label="@string/title_activity_subject_list"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.ncl.djwelsh.checkpoint.MainActivity" />
+        </activity>
+        <activity
+            android:name=".SubjectResults"
+            android:label="@string/title_activity_subject_results"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.ncl.djwelsh.checkpoint.MainActivity" />
+        </activity>
+        <activity
+            android:name=".NewSubject"
+            android:label="@string/title_activity_new_subject"
+            android:parentActivityName=".SubjectList"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.ncl.djwelsh.checkpoint.SubjectList" />
+        </activity>
+        <activity
+            android:name=".ViewSubject"
+            android:label="@string/title_activity_view_subject"
+            android:parentActivityName=".SubjectList"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.ncl.djwelsh.checkpoint.SubjectList" />
+        </activity>
+        <activity
+            android:name=".ViewCard"
+            android:label="@string/title_activity_view_card"
+            android:parentActivityName=".ViewSubject"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.ncl.djwelsh.checkpoint.ViewSubject" />
+        </activity>
     </application>
 
 </manifest>

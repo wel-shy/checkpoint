@@ -40,13 +40,13 @@
         android:text="@string/answer_prompt"
         android:id="@+id/textView3"
         android:textColor="@color/colorWhite"
-        android:layout_above="@+id/card_answer"
+        android:layout_above="@+id/card_question"
         android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:id="@+id/card_answer"
+        android:id="@+id/card_question"
         android:background="@drawable/main_button_box"
         android:layout_alignBaseline="@+id/save_card"
         android:layout_alignBottom="@+id/save_card"
@@ -59,7 +59,7 @@
         android:text="Choose a difficulty"
         android:id="@+id/textView4"
         android:textColor="@color/colorWhite"
-        android:layout_below="@+id/card_answer"
+        android:layout_below="@+id/card_question"
         android:layout_alignParentStart="true" />
 
     <RatingBar
