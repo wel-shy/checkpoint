@@ -75,9 +75,15 @@ public class SubjectOverview extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void selectQuizType (View view) {
+//    public void selectQuizType(View view) {
+//
+//        Intent intent = new Intent(this, StartQuiz.class);
+//        intent.putExtra("subject", subject);
+//        startActivity(intent);
+//    }
 
-        Intent intent = new Intent(this, StartQuiz.class);
+    public void selectQuiz(View view) {
+        Intent intent = new Intent(this, QuizType.class);
         intent.putExtra("subject", subject);
         startActivity(intent);
     }

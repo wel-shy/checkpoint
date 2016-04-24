@@ -57,4 +57,5 @@
     <string name="title_activity_new_subject">NewSubject</string>
     <string name="title_activity_view_subject">ViewSubject</string>
     <string name="title_activity_view_card">ViewCard</string>
+    <string name="title_activity_quiz_type">QuizType</string>
 </resources>
