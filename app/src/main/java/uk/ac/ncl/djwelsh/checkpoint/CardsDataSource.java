@@ -203,13 +203,14 @@ public class CardsDataSource {
         Card card = new Card();
 
         card.setId(cursor.getLong(0));
-        card.setName(cursor.getString(1));
-        card.setQuestion(cursor.getString(2));
-        card.setAnswer(cursor.getString(3));
-        card.setSubject(cursor.getString(4));
-        card.setRating(cursor.getString(5));
-        card.setNumCorrect(Integer.valueOf(cursor.getString(6)));
-        card.setNumIncorrect(Integer.valueOf(cursor.getString(7)));
+        card.setName(cursor.getString(cursor.getColumnIndex(SQLHelper.CARDS_COLUMN_NAME)));
+        card.setQuestion(cursor.getString(cursor.getColumnIndex(SQLHelper.CARDS_COLUMN_QUESTION)));
+        card.setAnswer(cursor.getString(cursor.getColumnIndex(SQLHelper.CARDS_COLUMN_ANSWER)));
+        card.setNumCorrect(Integer.valueOf(cursor.getString(cursor.getColumnIndex(SQLHelper.CARDS_COLUMN_CORRECT_COUNT))));
+        card.setNumIncorrect(Integer.valueOf(cursor.getString(cursor.getColumnIndex(SQLHelper.CARDS_COLUMN_INCORRECT_COUNT))));
+        System.out.println("CURSOR 7: " + cursor.getString(7));
+        card.setSubject(cursor.getString(cursor.getColumnIndex(SQLHelper.CARDS_COLUMN_SUBJECT)));
+        card.setRating(cursor.getString(cursor.getColumnIndex(SQLHelper.CARDS_COLUMN_RATING)));
 
         return card;
     }

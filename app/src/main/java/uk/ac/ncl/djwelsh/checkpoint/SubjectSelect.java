@@ -98,7 +98,7 @@ public class SubjectSelect extends AppCompatActivity implements NavigationView.O
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String message = String.valueOf(id);
-                Intent intent = new Intent(SubjectSelect.this, SubjectOverview.class);
+                Intent intent = new Intent(SubjectSelect.this, ViewSubject.class);
                 intent.putExtra(MainActivity.EXTRA_MESSAGE, message);
                 startActivity(intent);
             }
@@ -119,7 +119,7 @@ public class SubjectSelect extends AppCompatActivity implements NavigationView.O
      */
     public void launchAddSubject(View view)
     {
-        Intent intent = new Intent(this, AddSubject.class);
+        Intent intent = new Intent(this, NewSubject.class);
         startActivity(intent);
     }
 

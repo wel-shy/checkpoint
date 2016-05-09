@@ -58,4 +58,5 @@
     <string name="title_activity_view_subject">ViewSubject</string>
     <string name="title_activity_view_card">ViewCard</string>
     <string name="title_activity_quiz_type">QuizType</string>
+    <string name="title_activity_card_add">CardAdd</string>
 </resources>

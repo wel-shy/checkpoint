@@ -70,7 +70,7 @@ public class SubjectOverview extends AppCompatActivity {
 
     public void addNewCard(View view) {
 
-        Intent intent = new Intent(this, AddCard.class);
+        Intent intent = new Intent(this, CardAdd.class);
         intent.putExtra("subject", subject);
         startActivity(intent);
     }

@@ -41,8 +41,10 @@ public class ViewCard extends AppCompatActivity
         getSupportActionBar().setTitle(card.getName());
         TextView question = (TextView) findViewById(R.id.card_question);
         TextView answer = (TextView) findViewById(R.id.card_answer);
+        TextView rating = (TextView) findViewById(R.id.card_rating_display);
         question.setText(card.getQuestion());
         answer.setText(card.getAnswer());
+        rating.setText(card.getRating());
     }
 
     @Override

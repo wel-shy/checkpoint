@@ -102,7 +102,7 @@ public class NewSubject extends AppCompatActivity
         Subject sub = subjectsDataSource.createSubject(name);
         subjectsDataSource.close();
 
-        Intent intent = new Intent(this, AddCard.class);
+        Intent intent = new Intent(this, CardAdd.class);
         intent.putExtra("subject", sub);
         startActivity(intent);
     }

@@ -98,7 +98,7 @@ public class QuizResults extends AppCompatActivity {
      */
     public void launchAddSubject(View view)
     {
-        Intent intent = new Intent(this, AddSubject.class);
+        Intent intent = new Intent(this, NewSubject.class);
         startActivity(intent);
     }
 

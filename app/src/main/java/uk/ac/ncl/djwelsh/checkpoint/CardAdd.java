@@ -2,8 +2,6 @@ package uk.ac.ncl.djwelsh.checkpoint;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,22 +11,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.EditText;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
-import java.util.List;
-
-public class ViewSubject extends AppCompatActivity
+public class CardAdd extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Subject subject;
-    Deck deck;
+    int cardCount = 1;
+    private CardsDataSource datasource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_subject);
+        setContentView(R.layout.activity_card_add);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -41,24 +38,13 @@ public class ViewSubject extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        subject = (Subject) getIntent().getParcelableExtra("subject");
-        deck = new Deck(subject, this);
+        // Get subject
+        Intent intent = getIntent();
+        subject = intent.getParcelableExtra("subject");
+        datasource = new CardsDataSource(this);
 
-        getSupportActionBar().setTitle(subject.getName());
-
-        ArrayAdapter<Card> adapter = new ArrayAdapter<Card>(this, android.R.layout.simple_list_item_1, deck.getCards());
-        ListView listView = (ListView) findViewById(R.id.card_list);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent intent = new Intent(ViewSubject.this, ViewCard.class);
-                intent.putExtra("card", (Card) parent.getItemAtPosition(position));
-                startActivity(intent);
-            }
-        });
+        // Change title
+        getSupportActionBar().setTitle("Add Cards to " + subject.getName());
     }
 
     @Override
@@ -74,7 +60,7 @@ public class ViewSubject extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view_subject, menu);
+        getMenuInflater().inflate(R.menu.card_add, menu);
         return true;
     }
 
@@ -101,15 +87,15 @@ public class ViewSubject extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_home :
-                Intent a = new Intent(ViewSubject.this, MainActivity.class);
+                Intent a = new Intent(CardAdd.this, MainActivity.class);
                 startActivity(a);
                 break;
             case R.id.nav_subjects :
-                Intent b = new Intent(ViewSubject.this, SubjectList.class);
+                Intent b = new Intent(CardAdd.this, SubjectList.class);
                 startActivity(b);
                 break;
             case R.id.nav_results :
-                Intent c = new Intent(ViewSubject.this, SubjectResults.class);
+                Intent c = new Intent(CardAdd.this, SubjectResults.class);
                 startActivity(c);
                 break;
         }
@@ -119,14 +105,49 @@ public class ViewSubject extends AppCompatActivity
         return true;
     }
 
-    public void newCardFromViewSubject(View view) {
-        Intent intent = new Intent(this, CardAdd.class);
-        intent.putExtra("subject", subject);
-        startActivity(intent);
+    /**
+     * Save a card to the database.
+     *
+     * @param view This view.
+     */
+    public void saveCard(View view) {
+        EditText rawCardName = (EditText) findViewById(R.id.card_title);
+        EditText rawQuestion = (EditText) findViewById(R.id.card_overview_question);
+        EditText rawAnswer = (EditText) findViewById(R.id.card_question);
+        RatingBar rawDifficulty = (RatingBar) findViewById(R.id.card_difficulty);
+
+        String[] data = {
+                rawCardName.getText().toString(),               // Name
+                rawQuestion.getText().toString(),               // Question
+                rawAnswer.getText().toString(),                 // Answer
+                "0",                                            // Correct Count
+                "0",                                            // Incorrect Count
+                String.valueOf(subject.getId()),                // Subject
+                Float.toString(rawDifficulty.getRating())       // Difficulty
+        };
+
+        datasource.open();
+        datasource.createCard(data);
+        datasource.close();
+        cardCount++;
+
+        rawCardName.setText("");
+        rawQuestion.setText("");
+        rawAnswer.setText("");
+        rawDifficulty.setNumStars(0);
+
+        TextView counter = (TextView) findViewById(R.id.card_counters);
+        counter.setText("Card " + cardCount);
     }
 
-    public void viewSubjectResults(View view) {
-        Intent intent = new Intent(this, ViewQuizResults.class);
+    /**
+     * Finish adding cards and return to subject overview.
+     *
+     * @param view This view.
+     */
+    public void finishDeck(View view) {
+
+        Intent intent = new Intent(this, ViewSubject.class);
         intent.putExtra("subject", subject);
         startActivity(intent);
     }
