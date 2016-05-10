@@ -167,6 +167,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uk.ac.ncl.djwelsh.checkpoint.ViewSubject" />
         </activity>
+        <activity
+            android:name=".ViewAllResults"
+            android:label="@string/title_activity_view_all_results"
+            android:parentActivityName=".ViewQuizResults"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.ncl.djwelsh.checkpoint.ViewQuizResults" />
+        </activity>
     </application>
 
 </manifest>

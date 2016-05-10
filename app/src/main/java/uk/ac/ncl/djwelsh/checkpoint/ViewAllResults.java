@@ -2,9 +2,6 @@ package uk.ac.ncl.djwelsh.checkpoint;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,22 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-import java.util.List;
-
-public class ViewSubject extends AppCompatActivity
+public class ViewAllResults extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    Subject subject;
-    Deck deck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_subject);
+        setContentView(R.layout.activity_view_all_results);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -41,24 +30,7 @@ public class ViewSubject extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        subject = (Subject) getIntent().getParcelableExtra("subject");
-        deck = new Deck(subject, this);
-
-        getSupportActionBar().setTitle(subject.getName());
-
-        ArrayAdapter<Card> adapter = new ArrayAdapter<Card>(this, android.R.layout.simple_list_item_1, deck.getCards());
-        ListView listView = (ListView) findViewById(R.id.card_list);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent intent = new Intent(ViewSubject.this, ViewCard.class);
-                intent.putExtra("card", (Card) parent.getItemAtPosition(position));
-                startActivity(intent);
-            }
-        });
+        getSupportActionBar().setTitle("All Results");
     }
 
     @Override
@@ -74,7 +46,7 @@ public class ViewSubject extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view_subject, menu);
+        getMenuInflater().inflate(R.menu.view_all_results, menu);
         return true;
     }
 
@@ -101,15 +73,15 @@ public class ViewSubject extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_home :
-                Intent a = new Intent(ViewSubject.this, MainActivity.class);
+                Intent a = new Intent(ViewAllResults.this, MainActivity.class);
                 startActivity(a);
                 break;
             case R.id.nav_subjects :
-                Intent b = new Intent(ViewSubject.this, SubjectList.class);
+                Intent b = new Intent(ViewAllResults.this, SubjectList.class);
                 startActivity(b);
                 break;
             case R.id.nav_results :
-                Intent c = new Intent(ViewSubject.this, SubjectResults.class);
+                Intent c = new Intent(ViewAllResults.this, SubjectResults.class);
                 startActivity(c);
                 break;
         }
@@ -117,23 +89,5 @@ public class ViewSubject extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void newCardFromViewSubject(View view) {
-        Intent intent = new Intent(this, CardAdd.class);
-        intent.putExtra("subject", subject);
-        startActivity(intent);
-    }
-
-    public void viewSubjectResults(View view) {
-        Intent intent = new Intent(this, ViewQuizResults.class);
-        intent.putExtra("subject", subject);
-        startActivity(intent);
-    }
-
-    public void startQuiz(View view) {
-        Intent intent = new Intent(this, StartQuiz.class);
-        intent.putExtra("subject", subject);
-        startActivity(intent);
     }
 }

@@ -96,7 +96,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Card 1"
-        android:id="@+id/textView23"
+        android:id="@+id/card_counters"
         android:textColor="@color/colorWhite"
         android:layout_below="@+id/card_difficulty"
         android:layout_centerHorizontal="true" />

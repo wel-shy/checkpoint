@@ -6,15 +6,16 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
-
-import java.util.Objects;
 
 public class PlayQuiz extends AppCompatActivity {
 
     private Quiz quiz;
-    private Card currentCard;
-    private boolean isQuestion = false;
+    private int deckPos = 0;
+    private Deck deck;
+
+    private boolean isQuestion = true;
     private TextView points;
     private TextView infContainer;
     private TextView timeRemaining;
@@ -22,56 +23,92 @@ public class PlayQuiz extends AppCompatActivity {
     private Button rightAns;
     private int currentPoints = 0;
     private CountDownTimer timer;
+    private RatingBar difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_quiz);
 
+        // Get quiz
         Intent intent = getIntent();
         quiz = intent.getParcelableExtra("quiz");
 
+        // Get deck
+        deck = quiz.getDeck();
+
+        // Set view
         points = (TextView) findViewById(R.id.current_points);
         infContainer = (TextView) findViewById(R.id.infContainer);
         timeRemaining = (TextView) findViewById(R.id.timer);
         wrongAns = (Button) findViewById(R.id.wrongAns);
         rightAns = (Button) findViewById(R.id.rightAns);
+        difficulty = (RatingBar) findViewById(R.id.ratingBar);
 
-        System.out.println("POS:    " + quiz.toString());
-        System.out.println(quiz.getDeck().getCard(0));
-
+        // Set points
         points.setText(String.valueOf(currentPoints));
-        updateCard();
-        infContainer.setText(currentCard.getQuestion());
+
+        // Display first card.
+        displayCard(deck.getCard(deckPos), isQuestion);
 
         // Add timer to quiz
-        if(Objects.equals(quiz.getQuizType(), "quickFire")) {
-            timeRemaining.setVisibility(View.VISIBLE);
-            timer = new CountDownTimer(120000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    String remaining = "seconds remaining: " + millisUntilFinished / 1000;
-                    timeRemaining.setText(remaining);
-                }
+        switch (quiz.getQuizType()) {
+            case "quickFire":
+                timeRemaining.setVisibility(View.VISIBLE);
+                timer = new CountDownTimer(120000, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        String remaining = "seconds remaining: " + millisUntilFinished / 1000;
+                        timeRemaining.setText(remaining);
+                    }
 
-                @Override
-                public void onFinish() {
-                    finishQuiz();
-                }
-            };
+                    @Override
+                    public void onFinish() {
+                        finishQuiz();
+                    }
+                };
 
-            timer.start();
+                timer.start();
+                break;
+
+            case "random":
+
+                System.out.println("RANDOM DECK TO STRING");
+                System.out.println(quiz.getDeck().toString());
+                break;
+
+            case "easiestToHardest":
+
+                System.out.println("ETH DECK TO STRING");
+                System.out.println(quiz.getDeck().toString());
+                break;
         }
     }
 
     /**
-     * Update question and hide buttons.
+     * Display a card
+     *
+     * @param card Card to display
+     * @param isQuestion Is the current view a question
      */
-    private void displayQuestion() {
-        updateCard();
-        infContainer.setText(currentCard.getQuestion());
-        wrongAns.setVisibility(View.INVISIBLE);
-        rightAns.setVisibility(View.INVISIBLE);
+    public void displayCard(Card card, boolean isQuestion) {
+
+        if (isQuestion) {
+
+            // Show question - Hide buttons
+            infContainer.setText(card.getQuestion());
+            difficulty.setRating(Float.valueOf(deck.getCard(deckPos).getRating()));
+            wrongAns.setVisibility(View.INVISIBLE);
+            rightAns.setVisibility(View.INVISIBLE);
+
+        } else {
+
+            // Show answer - Show buttons
+            infContainer.setText(card.getAnswer());
+            wrongAns.setVisibility(View.VISIBLE);
+            rightAns.setVisibility(View.VISIBLE);
+
+        }
     }
 
     /**
@@ -79,73 +116,93 @@ public class PlayQuiz extends AppCompatActivity {
      */
     public void containerPress(View view) {
 
-        if(isQuestion) {
-            displayAnswer();
-            isQuestion = false;
-        } else {
-            isQuestion = true;
-        }
+        isQuestion = false;
+        displayCard(deck.getCard(deckPos), isQuestion);
     }
 
-    private void displayAnswer() {
-        infContainer.setText(currentCard.getAnswer());
-        wrongAns.setVisibility(View.VISIBLE);
-        rightAns.setVisibility(View.VISIBLE);
-    }
-
+    /**
+     * Update the card if the answer is correct.
+     *
+     * @param view
+     */
     // TODO add points rating.
     public void correctAnswer(View view) {
-        quiz.setCurrentCardIdx(quiz.getCurrentCardIdx() + 1);
-        currentPoints += 10;
-//        currentPoints += 10;
-        quiz.setPoints(quiz.getPoints() + 10);
+
+        // Update correct count
+        deck.getCard(deckPos).setNumCorrect(deck.getCard(deckPos).getNumCorrect() + 1);
+
+        // Update points
+        float p = Float.valueOf(deck.getCard(deckPos).getRating()) * 10;
+        quiz.setPoints((int) (quiz.getPoints() + p));
+        points.setText(quiz.getPoints());
+
+        // Set to question and update counter
+        isQuestion = true;
+        deckPos ++;
+
+        // If not last card - Update card
+        if(!(deckPos == deck.deckLength)) {
+            displayCard(deck.getCard(deckPos), isQuestion);
+        } else {
+            finishQuiz();
+        }
+
+        // Set quiz counts
         quiz.setCorrectCount(quiz.getCorrectCount() + 1);
-        points.setText(String.valueOf(currentPoints));
-        currentCard.setNumCorrect(currentCard.getNumCorrect() + 1);
-        currentCard.updataCard(this);
-
-        if(quiz.getCurrentCardIdx() == quiz.getDeck().deckLength){
-            finishQuiz();
-        } else {
-            updateCard();
-            displayQuestion();
-        }
     }
 
+    /**
+     * Update card if answer is incorrect.
+     *
+     * @param view activity view
+     */
     public void incorrectAnswer(View view) {
-        quiz.setCurrentCardIdx(quiz.getCurrentCardIdx() + 1);
-        quiz.setIncorrectCount(quiz.getIncorrectCount() + 1);
 
-        currentCard.setNumIncorrect(currentCard.getNumIncorrect() + 1);
-        currentCard.updataCard(this);
+        // Update correct count
+        deck.getCard(deckPos).setNumIncorrect(deck.getCard(deckPos).getNumIncorrect() + 1);
 
-        if(quiz.getCurrentCardIdx() == quiz.getDeck().deckLength){
-            finishQuiz();
+        // Set to question and update counter
+        isQuestion = true;
+        deckPos ++;
+
+        // If not last card - Update card
+        if(!(deckPos == deck.deckLength)) {
+            displayCard(deck.getCard(deckPos), isQuestion);
         } else {
-            updateCard();
-            displayQuestion();
+            finishQuiz();
         }
+
+        // Set quiz counts.
+        quiz.setIncorrectCount(quiz.getIncorrectCount() + 1);
     }
 
+    /**
+     * Finish quiz if max is reached or timer finishes.
+     */
     private void finishQuiz() {
+
+        // Cancel timer
         if(timer != null) {
             timer.cancel();
         }
+
+        // Update text.
         infContainer.setText("FINISHED");
 
-//        quiz.setPoints(currentPoints);
+        // Update card correct values
+        for (int i = 0; i < deck.deckLength; i++) {
+            deck.getCard(i).updateCard(this);
+        }
 
+        // Save quiz
         QuizDataSource quizDB = new QuizDataSource(this);
         quizDB.open();
         quizDB.storeQuiz(quiz);
         quizDB.close();
 
+        // Show results
         Intent intent = new Intent(this, ViewQuizResults.class);
         intent.putExtra("subject", quiz.getSubject());
         startActivity(intent);
-    }
-
-    private void updateCard() {
-        currentCard = quiz.getCurrentCard();
     }
 }

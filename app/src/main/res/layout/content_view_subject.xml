@@ -68,7 +68,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:textColor="@color/colorAccent"
-        android:onClick="selectQuiz"
+        android:onClick="startQuiz"
         android:layout_above="@+id/textView16"
         android:layout_alignEnd="@+id/card_list" />
 </RelativeLayout>

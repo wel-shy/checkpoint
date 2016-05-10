@@ -13,28 +13,10 @@
     tools:showIn="@layout/app_bar_view_quiz_results"
     android:background="@color/colorBackground">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Total Subject Points:"
-        android:id="@+id/textView14"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/total_points"
-        android:layout_below="@+id/textView14"
-        android:layout_alignParentStart="true" />
-
     <com.androidplot.xy.XYPlot
         android:id="@+id/plot"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="400dp"
         app:label="Your Quiz Scores"
         app:rangeLabel="Score"
         app:domainLabel=""
@@ -67,5 +49,38 @@
         app:legendIconWidth="15dp"
         app:legendHeight="25dp"
         app:legendAnchorPosition="right_bottom"
-        app:legendVisible="false" />
+        app:legendVisible="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Total Subject Points:"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/plot"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/colorWhite" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/total_points"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/colorWhite" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="View all results"
+        android:id="@+id/textView2"
+        android:textColor="@color/colorWhite"
+        android:layout_below="@+id/total_points"
+        android:layout_alignParentStart="true"
+        android:onClick="viewAllResults" />
 </RelativeLayout>

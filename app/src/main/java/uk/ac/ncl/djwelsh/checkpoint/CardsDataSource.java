@@ -110,19 +110,21 @@ public class CardsDataSource {
      */
     public Card getCard(long id) {
 
-        id++;
         Card card = null;
 
-        System.out.println("Card search id" +  id);
+        System.out.println("Card search id: " + id);
 
-        String query = "SELECT * FROM " + SQLHelper.TABLE_CARDS + " WHERE " + SQLHelper.CARDS_COLUMN_ID + " = " + id;
+        String query = "SELECT * FROM " + SQLHelper.TABLE_CARDS + " WHERE " + SQLHelper.CARDS_COLUMN_ID + " = " + String.valueOf(id);
         Cursor cursor = database.rawQuery(query, null);
+
+//        Cursor cursor = database.query(SQLHelper.TABLE_CARDS, new String[]{String.valueOf(id)}, "where", null, null, null, null);
 
         if( cursor != null && cursor.moveToFirst() ) {
             card = cursorToCard(cursor);
             cursor.close();
         }
 
+        System.out.println("Searching CARD::::::::");
         System.out.println(card.toString());
         return card;
     }

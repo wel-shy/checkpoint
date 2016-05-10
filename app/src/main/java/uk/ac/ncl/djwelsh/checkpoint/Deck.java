@@ -54,6 +54,10 @@ public class Deck implements Parcelable{
         Collections.shuffle(cards, new Random(System.currentTimeMillis()));
     }
 
+    public String toString() {
+        return cards.toString();
+    }
+
     @Override
     public int describeContents() {
         return 0;

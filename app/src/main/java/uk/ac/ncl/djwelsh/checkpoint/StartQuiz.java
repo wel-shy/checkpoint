@@ -34,9 +34,9 @@ public class StartQuiz extends AppCompatActivity {
 
             @Override
             public int compare(Card lhs, Card rhs) {
-                if (Integer.valueOf(lhs.getRating()) < Integer.valueOf(rhs.getRating())) {
+                if (Float.valueOf(lhs.getRating()) < Float.valueOf(rhs.getRating())) {
                     return -1;
-                } else if (Integer.valueOf(lhs.getRating()) > Integer.valueOf(rhs.getRating())) {
+                } else if (Float.valueOf(lhs.getRating()) > Float.valueOf(rhs.getRating())) {
                     return 1;
                 } else {
                     return 0;

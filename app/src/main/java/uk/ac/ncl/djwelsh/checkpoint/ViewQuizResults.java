@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.androidplot.ui.SeriesRenderer;
@@ -51,7 +52,7 @@ public class ViewQuizResults extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         subject = (Subject) getIntent().getParcelableExtra("subject");
-        getSupportActionBar().setTitle(subject.getName() + "Results");
+        getSupportActionBar().setTitle(subject.getName() + " Results");
 
         QuizDataSource quizDB = new QuizDataSource(this);
         quizDB.open();
@@ -159,5 +160,12 @@ public class ViewQuizResults extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void viewAllResults(View view) {
+
+        Intent intent = new Intent(this, ViewAllResults.class);
+        intent.putExtra("subject", subject);
+        startActivity(intent);
     }
 }

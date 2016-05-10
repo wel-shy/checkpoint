@@ -120,7 +120,9 @@ public class Card implements Parcelable{
 
     @Override
     public String toString() {
-        return getQuestion();
+        return "Card{" +
+                "id=" + id +
+                ", name='" + name + '\'';
     }
 
     @Override
@@ -180,7 +182,7 @@ public class Card implements Parcelable{
         }
     };
 
-    public void updataCard(Context context){
+    public void updateCard(Context context){
         CardsDataSource db = new CardsDataSource(context);
         db.open();
         db.updateCard(id);
