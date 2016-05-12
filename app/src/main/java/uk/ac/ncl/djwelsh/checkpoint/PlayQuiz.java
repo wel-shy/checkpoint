@@ -43,7 +43,7 @@ public class PlayQuiz extends AppCompatActivity {
         timeRemaining = (TextView) findViewById(R.id.timer);
         wrongAns = (Button) findViewById(R.id.wrongAns);
         rightAns = (Button) findViewById(R.id.rightAns);
-        difficulty = (RatingBar) findViewById(R.id.ratingBar);
+        difficulty = (RatingBar) findViewById(R.id.r_bar);
 
         // Set points
         points.setText(String.valueOf(currentPoints));
@@ -134,7 +134,7 @@ public class PlayQuiz extends AppCompatActivity {
         // Update points
         float p = Float.valueOf(deck.getCard(deckPos).getRating()) * 10;
         quiz.setPoints((int) (quiz.getPoints() + p));
-        points.setText(quiz.getPoints());
+        points.setText(String.valueOf(quiz.getPoints()));
 
         // Set to question and update counter
         isQuestion = true;

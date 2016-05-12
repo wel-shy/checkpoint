@@ -66,14 +66,16 @@
         android:background="@drawable/main_button_box"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:layout_below="@+id/ratingBar"
+        android:layout_below="@+id/r_bar"
         android:layout_alignParentStart="true"
-        android:onClick="containerPress" />
+        android:onClick="containerPress"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
 
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ratingBar"
+        android:id="@+id/r_bar"
         android:layout_below="@+id/timer"
         android:layout_centerHorizontal="true" />
 

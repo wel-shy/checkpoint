@@ -50,8 +50,8 @@
         app:legendHeight="25dp"
         app:legendAnchorPosition="right_bottom"
         app:legendVisible="false"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/subject_select" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -83,4 +83,10 @@
         android:layout_below="@+id/total_points"
         android:layout_alignParentStart="true"
         android:onClick="viewAllResults" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/subject_select"
+        android:layout_alignParentTop="true" />
 </RelativeLayout>
