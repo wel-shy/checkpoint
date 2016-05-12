@@ -13,22 +13,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 
-public class ViewSubject extends AppCompatActivity
+public class ChooseQuiz extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Subject subject;
-    Deck deck;
+    private Quiz quiz = null;
+    private Subject subject = null;
+    private Deck deck = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_subject);
+        setContentView(R.layout.activity_choose_quiz);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -41,24 +40,16 @@ public class ViewSubject extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        subject = (Subject) getIntent().getParcelableExtra("subject");
-        deck = new Deck(subject, this);
+        getSupportActionBar().setTitle("Select Quiz Type");
 
-        getSupportActionBar().setTitle(subject.getName());
+        Intent intent = getIntent();
+        subject = intent.getParcelableExtra("subject");
 
-        ArrayAdapter<Card> adapter = new ArrayAdapter<Card>(this, R.layout.white_list_item, deck.getCards());
-        ListView listView = (ListView) findViewById(R.id.card_list);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent intent = new Intent(ViewSubject.this, ViewCard.class);
-                intent.putExtra("card", (Card) parent.getItemAtPosition(position));
-                startActivity(intent);
-            }
-        });
+        CardsDataSource cardsDB = new CardsDataSource(this);
+        cardsDB.open();
+        deck = new Deck(cardsDB.getCardBySubject(String.valueOf(subject.getId())));
+        quiz = new Quiz(subject, deck);
+        cardsDB.close();
     }
 
     @Override
@@ -74,7 +65,7 @@ public class ViewSubject extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view_subject, menu);
+        getMenuInflater().inflate(R.menu.choose_quiz, menu);
         return true;
     }
 
@@ -101,15 +92,15 @@ public class ViewSubject extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_home :
-                Intent a = new Intent(ViewSubject.this, MainActivity.class);
+                Intent a = new Intent(ChooseQuiz.this, MainActivity.class);
                 startActivity(a);
                 break;
             case R.id.nav_subjects :
-                Intent b = new Intent(ViewSubject.this, SubjectList.class);
+                Intent b = new Intent(ChooseQuiz.this, SubjectList.class);
                 startActivity(b);
                 break;
             case R.id.nav_results :
-                Intent c = new Intent(ViewSubject.this, SubjectResults.class);
+                Intent c = new Intent(ChooseQuiz.this, SubjectResults.class);
                 startActivity(c);
                 break;
         }
@@ -119,21 +110,61 @@ public class ViewSubject extends AppCompatActivity
         return true;
     }
 
-    public void newCardFromViewSubject(View view) {
-        Intent intent = new Intent(this, CardAdd.class);
-        intent.putExtra("subject", subject);
+    public void startEasiestToHardest(View view) {
+        Collections.sort(deck.cards, new Comparator<Card>() {
+
+            @Override
+            public int compare(Card lhs, Card rhs) {
+                if (Float.valueOf(lhs.getRating()) < Float.valueOf(rhs.getRating())) {
+                    return -1;
+                } else if (Float.valueOf(lhs.getRating()) > Float.valueOf(rhs.getRating())) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+
+        quiz.setQuizType("easiestToHardest");
+        quiz.setCorrectCount(0);
+        quiz.setIncorrectCount(0);
+
+        Intent intent = new Intent(this, PlayQuiz.class);
+        intent.putExtra("quiz", quiz);
         startActivity(intent);
     }
 
-    public void viewSubjectResults(View view) {
-        Intent intent = new Intent(this, ViewQuizResults.class);
-        intent.putExtra("subject", subject);
+    public void startQuickFire(View view) {
+
+        quiz.setQuizType("quickFire");
+        quiz.setCorrectCount(0);
+        quiz.setIncorrectCount(0);
+
+        Intent intent = new Intent(this, PlayQuiz.class);
+        intent.putExtra("quiz", quiz);
+
+        System.out.println("PRE:    " + quiz.toString());
         startActivity(intent);
     }
 
-    public void startQuiz(View view) {
-        Intent intent = new Intent(this, ChooseQuiz.class);
-        intent.putExtra("subject", subject);
+    public void startRandom(View view) {
+
+        quiz.setQuizType("random");
+        quiz.setCorrectCount(0);
+        quiz.setIncorrectCount(0);
+
+        Intent intent = new Intent(this, PlayQuiz.class);
+        intent.putExtra("quiz", quiz);
         startActivity(intent);
+    }
+
+    public void startByPercentWrong() {
+        Collections.sort(deck.cards, new Comparator<Card>(){
+
+            @Override
+            public int compare(Card lhs, Card rhs) {
+                return Double.compare(lhs.getPercentCorrect(), rhs.getPercentCorrect());
+            }
+        });
     }
 }

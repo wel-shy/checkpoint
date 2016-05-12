@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 public class ViewCard extends AppCompatActivity
@@ -41,10 +42,10 @@ public class ViewCard extends AppCompatActivity
         getSupportActionBar().setTitle(card.getName());
         TextView question = (TextView) findViewById(R.id.card_question);
         TextView answer = (TextView) findViewById(R.id.card_answer);
-        TextView rating = (TextView) findViewById(R.id.card_rating_display);
+        RatingBar rating = (RatingBar) findViewById(R.id.card_rating_display);
         question.setText(card.getQuestion());
         answer.setText(card.getAnswer());
-        rating.setText(card.getRating());
+        rating.setRating(Float.valueOf(card.getRating()));
     }
 
     @Override

@@ -1,10 +1,6 @@
 package uk.ac.ncl.djwelsh.checkpoint;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,20 +15,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.androidplot.ui.SeriesRenderer;
-import com.androidplot.util.PixelUtils;
+import com.androidplot.xy.CatmullRomInterpolator;
 import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
-import com.androidplot.xy.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class ViewQuizResults extends AppCompatActivity
@@ -71,12 +64,6 @@ public class ViewQuizResults extends AppCompatActivity
         subjectsList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Context context = getApplicationContext();
-                CharSequence text = "Hello toast!";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
 
                 // Get all quizzes
                 Subject sub = (Subject) parent.getItemAtPosition(position);
@@ -93,7 +80,6 @@ public class ViewQuizResults extends AppCompatActivity
                 TextView totalPointsView = (TextView) findViewById(R.id.total_points);
                 XYPlot plot = (XYPlot) findViewById(R.id.plot);
 
-//                plot.clear();
                 plot.removeSeries(previousSeries);
 
                 // Plot graph
@@ -119,9 +105,17 @@ public class ViewQuizResults extends AppCompatActivity
                     scoresArr[j] = scores.get(j);
                 }
 
+                Integer[] plotData;
+                if(scoresArr.length > 5 ){
+                     plotData = Arrays.copyOf(scoresArr, scoresArr.length - 5);
+                    System.out.println("Plot data length" + plotData.length);
+                } else {
+                    plotData = scoresArr;
+                }
+
                 // turn the above arrays into XYSeries':
                 // (Y_VALS_ONLY means use the element index as the x value)
-                XYSeries series1 = new SimpleXYSeries(Arrays.asList(scoresArr),
+                XYSeries series1 = new SimpleXYSeries(Arrays.asList(plotData),
                         SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series1");
 
                 MyLineAndPointFormatter format = new MyLineAndPointFormatter();
@@ -161,7 +155,7 @@ public class ViewQuizResults extends AppCompatActivity
             });
 
             List<Quiz> quizResults = new ArrayList<Quiz>();
-            for (int i = 0; i < 5; i++) {
+            for (int i = quizzes.size() - 1; i > quizzes.size() - 5; i--) {
                 quizResults.add(quizzes.get(i));
             }
 

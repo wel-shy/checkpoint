@@ -32,9 +32,9 @@
         android:minHeight="40dp"
         android:layout_below="@+id/textView19"
         android:layout_centerHorizontal="true"
-        android:text="card"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
+        android:paddingRight="10dp"
+        android:textColor="@color/colorAccent" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -45,7 +45,8 @@
         android:layout_alignParentStart="true"
         android:textColor="@color/colorWhite"
         android:layout_below="@+id/card_title"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -56,7 +57,8 @@
         android:layout_below="@+id/textView20"
         android:layout_centerHorizontal="true"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
+        android:paddingRight="10dp"
+        android:textColor="@color/colorAccent" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -67,7 +69,8 @@
         android:textColor="@color/colorWhite"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/card_overview_question"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -78,7 +81,8 @@
         android:layout_below="@+id/textView21"
         android:layout_centerHorizontal="true"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
+        android:paddingRight="10dp"
+        android:textColor="@color/colorAccent" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -89,7 +93,8 @@
         android:textColor="@color/colorWhite"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/card_question"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp" />
 
     <RatingBar
         android:layout_width="wrap_content"

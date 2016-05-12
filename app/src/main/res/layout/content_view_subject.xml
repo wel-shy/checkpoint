@@ -13,26 +13,6 @@
     tools:showIn="@layout/app_bar_view_subject"
     android:background="@color/colorBackground">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Cards"
-        android:id="@+id/textView16"
-        android:layout_below="@+id/button9"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:textColor="@color/colorWhite" />
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/card_list"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/textView16" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,6 +49,25 @@
         android:paddingRight="10dp"
         android:textColor="@color/colorAccent"
         android:onClick="startQuiz"
-        android:layout_above="@+id/textView16"
         android:layout_alignEnd="@+id/card_list" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:id="@+id/textView16"
+        android:background="@drawable/underline"
+        android:text="                    "
+        android:layout_below="@+id/button9"
+        android:layout_alignEnd="@+id/card_list"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/button8" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/card_list"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/textView16"
+        android:layout_marginTop="20dp" />
 </RelativeLayout>

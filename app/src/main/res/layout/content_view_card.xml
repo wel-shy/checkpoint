@@ -13,67 +13,83 @@
     tools:showIn="@layout/app_bar_view_card"
     android:background="@color/colorBackground">
 
-    <TextView
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Question"
-        android:id="@+id/textView17"
-        android:layout_alignParentTop="true"
+        android:id="@+id/scrollView"
         android:layout_alignParentStart="true"
-        android:textColor="@color/colorWhite" />
+        android:layout_alignParentEnd="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/card_question"
-        android:layout_below="@+id/textView17"
-        android:layout_alignParentStart="true"
-        android:textColor="@color/colorWhite" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Answer"
-        android:id="@+id/textView18"
-        android:layout_marginTop="75dp"
-        android:textColor="@color/colorWhite"
-        android:layout_below="@+id/card_question"
-        android:layout_alignParentStart="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/card_question"
+                android:layout_below="@+id/textView17"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/colorAccent"
+                android:background="@drawable/button_box"
+                android:layout_alignParentEnd="true"
+                android:padding="10dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Answer"
-        android:id="@+id/card_answer"
-        android:textColor="@color/colorWhite"
-        android:layout_below="@+id/textView18"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="false" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Question"
+                android:id="@+id/textView17"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/colorWhite"
+                android:layout_marginBottom="2dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Rating"
-        android:id="@+id/textView24"
-        android:layout_marginTop="53dp"
-        android:textColor="@color/colorWhite"
-        android:layout_below="@+id/card_answer"
-        android:layout_alignParentStart="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Answer"
+                android:id="@+id/textView18"
+                android:textColor="@color/colorWhite"
+                android:layout_below="@+id/card_question"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="5dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Rating"
-        android:id="@+id/card_rating_display"
-        android:textColor="@color/colorWhite"
-        android:layout_below="@+id/textView24"
-        android:layout_alignParentStart="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Answer"
+                android:id="@+id/card_answer"
+                android:textColor="@color/colorAccent"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/button_box"
+                android:layout_below="@+id/textView18"
+                android:layout_alignEnd="@+id/card_question"
+                android:padding="10dp" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Rating"
+                android:id="@+id/textView24"
+                android:textColor="@color/colorWhite"
+                android:layout_below="@+id/card_answer"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="5dp" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/card_rating_display"
+                android:layout_below="@+id/textView24"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

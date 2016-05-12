@@ -41,7 +41,8 @@ public class SubjectList extends AppCompatActivity
 
         List<Subject> subjects = subDB.getAllSubjects();
         subDB.close();
-        ArrayAdapter<Subject> adapter = new ArrayAdapter<Subject>(this, android.R.layout.simple_list_item_1, subjects);
+//        ArrayAdapter<Subject> adapter = new ArrayAdapter<Subject>(this, android.R.layout.simple_list_item_1, subjects);
+        ArrayAdapter<Subject> adapter = new ArrayAdapter<Subject>(this, R.layout.white_list_item, subjects);
         ListView listView = (ListView) findViewById(R.id.all_subjects);
         listView.setAdapter(adapter);
 

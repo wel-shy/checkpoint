@@ -97,6 +97,8 @@ public class PlayQuiz extends AppCompatActivity {
 
             // Show question - Hide buttons
             infContainer.setText(card.getQuestion());
+            infContainer.setBackground(getResources().getDrawable(R.drawable.inverted_box));
+            infContainer.setTextColor(getResources().getColor(R.color.colorAccent));
             difficulty.setRating(Float.valueOf(deck.getCard(deckPos).getRating()));
             wrongAns.setVisibility(View.INVISIBLE);
             rightAns.setVisibility(View.INVISIBLE);
@@ -104,6 +106,8 @@ public class PlayQuiz extends AppCompatActivity {
         } else {
 
             // Show answer - Show buttons
+            infContainer.setBackground(getResources().getDrawable(R.drawable.main_button_box));
+            infContainer.setTextColor(getResources().getColor(R.color.colorAccent));
             infContainer.setText(card.getAnswer());
             wrongAns.setVisibility(View.VISIBLE);
             rightAns.setVisibility(View.VISIBLE);

@@ -17,18 +17,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Select a subject"
+        android:text="Select a subject..."
         android:id="@+id/textView12"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textIsSelectable="false"
+        android:textSize="24dp"
+        android:textColor="@color/colorWhite"
+        android:layout_marginBottom="10dp" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/all_subjects"
-        android:layout_below="@+id/textView12"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/button5" />
+        android:layout_above="@+id/button5"
+        android:layout_below="@+id/textView23" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:id="@+id/textView23"
+        android:background="@drawable/underline"
+        android:text="                    "
+        android:layout_alignEnd="@+id/textView12"
+        android:layout_below="@+id/textView12"
+        android:layout_alignStart="@+id/textView12" />
 
     <Button
         android:layout_width="wrap_content"
@@ -43,4 +57,5 @@
         android:paddingRight="10dp"
         android:textColor="@color/colorAccent"
         android:onClick="launchNewSubject" />
+
 </RelativeLayout>

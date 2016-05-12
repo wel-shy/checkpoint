@@ -4,11 +4,11 @@
     <color name="colorPrimaryDark">#66000000</color>
     <!--<color name="colorAccent">#FF4081</color>-->
 
-    <color name="colorWhite">#EFEFEF</color>
-    <color name="colorGreen">#5BC0EB</color>
-    <color name="colorAccent">#D1345B</color>
+    <color name="colorWhite">#efefef</color>
+    <color name="colorBackground">#5BC0EB</color>
+    <color name="colorAccent">#d1345b</color>
     <color name="colorIcons">#FDE74C</color>
-    <color name="colorBackground">#34D1BF</color>
+    <color name="colorGreen">#34d1bf</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>

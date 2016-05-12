@@ -120,9 +120,7 @@ public class Card implements Parcelable{
 
     @Override
     public String toString() {
-        return "Card{" +
-                "id=" + id +
-                ", name='" + name + '\'';
+        return name;
     }
 
     @Override
