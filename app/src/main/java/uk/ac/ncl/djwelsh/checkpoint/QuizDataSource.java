@@ -68,10 +68,7 @@ public class QuizDataSource {
     public Quiz storeQuiz(Quiz quiz) {
         ContentValues values = new ContentValues();
 
-//        for (int i = 0; i < allColumns.length - 1; i++) {
-//            values.put(allColumns[i + 1], data[i]);
-//        }
-
+        // Assign to columns
         values.put(allColumns[1], quiz.getQuizType());
         values.put(allColumns[2], String.valueOf(quiz.getSubject().getId()));
         values.put(allColumns[3], String.valueOf(quiz.getPoints()));
@@ -79,7 +76,10 @@ public class QuizDataSource {
         values.put(allColumns[5], String.valueOf(quiz.getCorrectCount()));
         values.put(allColumns[6], String.valueOf(quiz.getIncorrectCount()));
 
+        // Insert quiz
         long insertId = database.insert(SQLHelper.TABLE_QUIZZES, null, values);
+
+        // Get quiz
         Cursor cursor = database.query(SQLHelper.TABLE_QUIZZES,
                 allColumns, SQLHelper.QUIZZES_COLUMN_ID + " = " + insertId, null,
                 null, null, null);
@@ -90,19 +90,19 @@ public class QuizDataSource {
     }
 
     /**
-     * Delete card from database.
+     * Delete quiz from database.
      *
-     * @param card
+     * @param quiz
      */
-    public void deleteQuiz(Card card) {
-        long id = card.getId();
+    public void deleteQuiz(Quiz quiz) {
+        long id = quiz.getId();
         System.out.println("Quiz deleted with id: " + id);
         database.delete(SQLHelper.TABLE_QUIZZES, SQLHelper.QUIZZES_COLUMN_ID
                 + " = " + id, null);
     }
 
     /**
-     * Get card from database.
+     * Get quiz from database.
      *
      * @param id
      * @return
@@ -112,8 +112,6 @@ public class QuizDataSource {
         id++;
         Quiz quiz = null;
 
-        System.out.println("Card search id" +  id);
-
         String query = "SELECT * FROM " + SQLHelper.TABLE_QUIZZES + " WHERE " + SQLHelper.QUIZZES_COLUMN_ID + " = " + id;
         Cursor cursor = database.rawQuery(query, null);
 
@@ -122,12 +120,11 @@ public class QuizDataSource {
             cursor.close();
         }
 
-        System.out.println(quiz.toString());
         return quiz;
     }
 
     /**
-     * Return all cards from database
+     * Return all quizzes from database
      *
      * @return
      */
@@ -149,13 +146,13 @@ public class QuizDataSource {
     }
 
     /**
-     * Return all cards belonging to a subject.
+     * Return all quizzes belonging to a subject.
      *
      * @param subject
      * @return
      */
     public List<Quiz> getQuizBySubject(String subject) {
-        List<Quiz> cards = new ArrayList<Quiz>();
+        List<Quiz> quizzes = new ArrayList<Quiz>();
 
         String query = "SELECT * FROM " + SQLHelper.TABLE_QUIZZES + " WHERE " + SQLHelper.QUIZZES_COLUMN_SUBJECT + " = " + subject;
         Cursor cursor = database.rawQuery(query, null);
@@ -166,18 +163,18 @@ public class QuizDataSource {
         } else if( cursor != null && cursor.moveToFirst() ) {
             do {
                 Quiz quiz = cursorToQuiz(cursor);
-                cards.add(quiz);
+                quizzes.add(quiz);
 
             } while (cursor.moveToNext());
 
             cursor.close();
         }
 
-        return cards;
+        return quizzes;
     }
 
     /**
-     * Parse cursor to card.
+     * Parse cursor to quiz.
      *
      * @param cursor
      * @return
@@ -186,9 +183,11 @@ public class QuizDataSource {
         Quiz quiz = new Quiz();
         Subject subject;
 
+        // Get subject
         SubjectsDataSource subjectDB = new SubjectsDataSource(context);
         subjectDB.open();
         subject = subjectDB.getSubject(Long.valueOf(cursor.getString(2)));
+        subjectDB.close();
 
         quiz.setId(cursor.getLong(0));
         quiz.setQuizType(cursor.getString(1));

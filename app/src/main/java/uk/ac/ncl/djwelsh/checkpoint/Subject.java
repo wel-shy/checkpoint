@@ -16,16 +16,28 @@ public class Subject implements Parcelable {
 
     public Subject() {}
 
+    /**
+     * Create from values
+     *
+     * @param id
+     * @param name
+     */
     public Subject(long id, String name) {
         this.id = id;
         this.name = name;
     }
 
+    /**
+     * Create from parcel
+     *
+     * @param in
+     */
     public Subject(Parcel in) {
         this.id = in.readLong();
         this.name = in.readString();
     }
 
+    // Getters and setters
     public long getId() {
         return id;
     }
@@ -78,6 +90,12 @@ public class Subject implements Parcelable {
         return 0;
     }
 
+    /**
+     * Write to parcel
+     *
+     * @param dest
+     * @param flags
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);

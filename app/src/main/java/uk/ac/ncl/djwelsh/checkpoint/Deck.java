@@ -12,7 +12,7 @@ import java.util.Random;
 /**
  * Created by Daniel on 29/03/16.
  *
- * Represents a deck of flash cards.
+ * Represents a deck of flashcards.
  */
 public class Deck implements Parcelable{
 
@@ -20,6 +20,12 @@ public class Deck implements Parcelable{
     int deckLength;
     CardsDataSource cardsDB;
 
+    /**
+     * Create deck from subject.
+     *
+     * @param subject
+     * @param context
+     */
     public Deck(Subject subject, Context context) {
 
         cardsDB = new CardsDataSource(context);
@@ -30,10 +36,20 @@ public class Deck implements Parcelable{
         cardsDB.close();
     }
 
+    /**
+     * Create from list of cards.
+     *
+     * @param cards
+     */
     public Deck(List<Card> cards) {
         this.cards = cards;
     }
 
+    /**
+     * Create from a parcel.
+     *
+     * @param in
+     */
     public Deck(Parcel in) {
 
         cards = new ArrayList<Card>();
@@ -45,11 +61,9 @@ public class Deck implements Parcelable{
         }
     }
 
-    public void sortByDifficulty() {
-
-
-    }
-
+    /**
+     * Shuffle flash cards.
+     */
     public void randomiseDeck() {
         Collections.shuffle(cards, new Random(System.currentTimeMillis()));
     }
@@ -63,6 +77,12 @@ public class Deck implements Parcelable{
         return 0;
     }
 
+    /**
+     * Write deck to parcel
+     *
+     * @param dest
+     * @param flags
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
@@ -84,10 +104,21 @@ public class Deck implements Parcelable{
         }
     };
 
+    /**
+     * Get a card by index.
+     *
+     * @param idx
+     * @return
+     */
     public Card getCard(int idx) {
         return cards.get(idx);
     }
 
+    /**
+     * Get all cards.
+     *
+     * @return
+     */
     public List<Card> getCards() {
         return cards;
     }

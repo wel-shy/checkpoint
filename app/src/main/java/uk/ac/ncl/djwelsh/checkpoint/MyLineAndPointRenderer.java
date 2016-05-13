@@ -21,6 +21,7 @@ import java.util.ArrayList;
  * Created by Daniel on 17/04/16.
  *
  * http://stackoverflow.com/questions/24283978/androidplot-customize-joints
+ * Renders the line from a series of points on the graphs.
  */
 public class MyLineAndPointRenderer extends LineAndPointRenderer<MyLineAndPointFormatter>
 {

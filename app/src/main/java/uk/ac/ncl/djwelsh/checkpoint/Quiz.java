@@ -62,6 +62,7 @@ public class Quiz implements Parcelable{
         this.date = in.readString();
     }
 
+    // Getters and setters
     public long getId() {
         return id;
     }
@@ -150,19 +151,17 @@ public class Quiz implements Parcelable{
         this.date = date;
     }
 
-    /**
-     * Update total subject points.
-     */
-    public void finishQuiz() {
-        String feedback = "You have scored " + points;
-        subject.setPoints(subject.getPoints() + points);
-    }
-
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     * Write quiz to parcel.
+     *
+     * @param dest
+     * @param flags
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 

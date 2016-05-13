@@ -2,9 +2,6 @@ package uk.ac.ncl.djwelsh.checkpoint;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,10 +10,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Random;
 
+/**
+ * Activity to select quiz type.
+ */
 public class ChooseQuiz extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -42,9 +44,11 @@ public class ChooseQuiz extends AppCompatActivity
 
         getSupportActionBar().setTitle("Select Quiz Type");
 
+        // Get subject.
         Intent intent = getIntent();
         subject = intent.getParcelableExtra("subject");
 
+        // Create a quiz using the subject to get all cards.
         CardsDataSource cardsDB = new CardsDataSource(this);
         cardsDB.open();
         deck = new Deck(cardsDB.getCardBySubject(String.valueOf(subject.getId())));
@@ -100,7 +104,7 @@ public class ChooseQuiz extends AppCompatActivity
                 startActivity(b);
                 break;
             case R.id.nav_results :
-                Intent c = new Intent(ChooseQuiz.this, SubjectResults.class);
+                Intent c = new Intent(ChooseQuiz.this, ViewQuizResults.class);
                 startActivity(c);
                 break;
         }
@@ -110,6 +114,11 @@ public class ChooseQuiz extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Sort cards by easiest to hardest and set quiz type.
+     *
+     * @param view
+     */
     public void startEasiestToHardest(View view) {
         Collections.sort(deck.cards, new Comparator<Card>() {
 
@@ -134,6 +143,11 @@ public class ChooseQuiz extends AppCompatActivity
         startActivity(intent);
     }
 
+    /**
+     * Set quiz type to quickfire and launch quiz.
+     *
+     * @param view
+     */
     public void startQuickFire(View view) {
 
         quiz.setQuizType("quickFire");
@@ -143,28 +157,26 @@ public class ChooseQuiz extends AppCompatActivity
         Intent intent = new Intent(this, PlayQuiz.class);
         intent.putExtra("quiz", quiz);
 
-        System.out.println("PRE:    " + quiz.toString());
         startActivity(intent);
     }
 
+    /**
+     * Randomise quiz
+     *
+     * TODO ADD RANDOM
+     *
+     * @param view
+     */
     public void startRandom(View view) {
 
         quiz.setQuizType("random");
         quiz.setCorrectCount(0);
         quiz.setIncorrectCount(0);
 
+        quiz.getDeck().randomiseDeck();
+
         Intent intent = new Intent(this, PlayQuiz.class);
         intent.putExtra("quiz", quiz);
         startActivity(intent);
-    }
-
-    public void startByPercentWrong() {
-        Collections.sort(deck.cards, new Comparator<Card>(){
-
-            @Override
-            public int compare(Card lhs, Card rhs) {
-                return Double.compare(lhs.getPercentCorrect(), rhs.getPercentCorrect());
-            }
-        });
     }
 }

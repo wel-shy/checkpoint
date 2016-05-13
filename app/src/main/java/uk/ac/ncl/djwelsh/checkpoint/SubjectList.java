@@ -17,6 +17,9 @@ import android.widget.ListView;
 
 import java.util.List;
 
+/**
+ * Acitivity to select a subject.
+ */
 public class SubjectList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -27,6 +30,7 @@ public class SubjectList extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Set navigation drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -36,12 +40,13 @@ public class SubjectList extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // Get all subjects
         SubjectsDataSource subDB = new SubjectsDataSource(this);
         subDB.open();
-
         List<Subject> subjects = subDB.getAllSubjects();
         subDB.close();
-//        ArrayAdapter<Subject> adapter = new ArrayAdapter<Subject>(this, android.R.layout.simple_list_item_1, subjects);
+
+        // Map array to list view
         ArrayAdapter<Subject> adapter = new ArrayAdapter<Subject>(this, R.layout.white_list_item, subjects);
         ListView listView = (ListView) findViewById(R.id.all_subjects);
         listView.setAdapter(adapter);
@@ -49,7 +54,8 @@ public class SubjectList extends AppCompatActivity
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String message = String.valueOf(id);
+
+                // Launch subject if chosen
                 Intent intent = new Intent(SubjectList.this, ViewSubject.class);
                 intent.putExtra("subject", (Subject) parent.getItemAtPosition(position));
                 startActivity(intent);
@@ -105,7 +111,7 @@ public class SubjectList extends AppCompatActivity
                 startActivity(b);
                 break;
             case R.id.nav_results :
-                Intent c = new Intent(SubjectList.this, SubjectResults.class);
+                Intent c = new Intent(SubjectList.this, ViewQuizResults.class);
                 startActivity(c);
                 break;
         }
@@ -115,6 +121,11 @@ public class SubjectList extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Launch activity to create a new subject.
+     *
+     * @param view
+     */
     public void launchNewSubject(View view){
         Intent intent = new Intent(this, NewSubject.class);
         startActivity(intent);

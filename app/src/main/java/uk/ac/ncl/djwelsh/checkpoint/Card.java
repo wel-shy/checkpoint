@@ -22,9 +22,17 @@ public class Card implements Parcelable{
     private double percentCorrect;
 
     public Card(){
-
     }
 
+    /**
+     * Constructor to initialise object.
+     *
+     * @param name name of card
+     * @param question question
+     * @param answer answer
+     * @param subject subject
+     * @param rating rating
+     */
     public Card(String name, String question, String answer, String subject, String rating) {
         this.name = name;
         this.question = question;
@@ -33,6 +41,11 @@ public class Card implements Parcelable{
         this.rating = rating;
     }
 
+    /**
+     * Create card from a parcel.
+     *
+     * @param in parcel
+     */
     public Card(Parcel in) {
 
         this.id = in.readLong();
@@ -46,74 +59,161 @@ public class Card implements Parcelable{
         this.percentCorrect = in.readDouble();
     }
 
+    /**
+     * Get ID
+     *
+     * @return
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Set ID
+     *
+     * @param id
+     */
     public void setId(long id) {
         this.id = id;
     }
 
+    /**
+     * Get Name
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Set Name
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Get Question
+     *
+     * @return
+     */
     public String getQuestion() {
         return question;
     }
 
+    /**
+     * Set Question
+     *
+     * @param question
+     */
     public void setQuestion(String question) {
         this.question = question;
     }
 
+    /**
+     * Get Answer
+     *
+     * @return
+     */
     public String getAnswer() {
         return answer;
     }
 
+    /**
+     * Set answer
+     *
+     * @param answer
+     */
     public void setAnswer(String answer) {
         this.answer = answer;
     }
 
+    /**
+     * Get subject
+     *
+     * @return
+     */
     public String getSubject() {
         return subject;
     }
 
+    /**
+     * Return subject.
+     *
+     * @param subject
+     */
     public void setSubject(String subject) {
         this.subject = subject;
     }
 
+    /**
+     * Get rating
+     *
+     * @return
+     */
     public String getRating() {
         return rating;
     }
 
+    /**
+     * Set rating
+     *
+     * @param rating
+     */
     public void setRating(String rating) {
         this.rating = rating;
     }
 
+    /**
+     * Get number of correct answers.
+     * @return
+     */
     public int getNumCorrect() {
         return numCorrect;
     }
 
+    /**
+     * Set number of correct answers.
+     *
+     * @param numCorrect
+     */
     public void setNumCorrect(int numCorrect) {
         this.numCorrect = numCorrect;
     }
 
+    /**
+     * Get number of wrong answers
+     *
+     * @return
+     */
     public int getNumIncorrect() {
         return numIncorrect;
     }
 
+    /**
+     * Set number of wrong answers
+     *
+     * @param numIncorrect
+     */
     public void setNumIncorrect(int numIncorrect) {
         this.numIncorrect = numIncorrect;
     }
 
+    /**
+     * Get percent of times answer has been correct.
+     *
+     * @return
+     */
     public double getPercentCorrect() {
         return percentCorrect;
     }
 
+    /**
+     * Set percentage
+     * @param precentCorrect
+     */
     public void setPercentCorrect(double precentCorrect) {
         this.percentCorrect = precentCorrect;
     }
@@ -155,6 +255,12 @@ public class Card implements Parcelable{
         return 0;
     }
 
+    /**
+     * Write the card to parcel
+     *
+     * @param dest
+     * @param flags
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
@@ -180,6 +286,11 @@ public class Card implements Parcelable{
         }
     };
 
+    /**
+     * Update a card in SQLite if values have been changed.
+     *
+     * @param context
+     */
     public void updateCard(Context context){
         CardsDataSource db = new CardsDataSource(context);
         db.open();

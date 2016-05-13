@@ -15,6 +15,9 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+/**
+ * An activity to add a card to a subject.
+ */
 public class CardAdd extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -29,12 +32,14 @@ public class CardAdd extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Set navigation drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        // Set navigation view
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -95,7 +100,7 @@ public class CardAdd extends AppCompatActivity
                 startActivity(b);
                 break;
             case R.id.nav_results :
-                Intent c = new Intent(CardAdd.this, SubjectResults.class);
+                Intent c = new Intent(CardAdd.this, ViewQuizResults.class);
                 startActivity(c);
                 break;
         }
@@ -111,11 +116,14 @@ public class CardAdd extends AppCompatActivity
      * @param view This view.
      */
     public void saveCard(View view) {
+
+        // Get data
         EditText rawCardName = (EditText) findViewById(R.id.card_title);
         EditText rawQuestion = (EditText) findViewById(R.id.card_overview_question);
         EditText rawAnswer = (EditText) findViewById(R.id.card_question);
         RatingBar rawDifficulty = (RatingBar) findViewById(R.id.card_difficulty);
 
+        // Parse to array
         String[] data = {
                 rawCardName.getText().toString(),               // Name
                 rawQuestion.getText().toString(),               // Question
@@ -126,16 +134,19 @@ public class CardAdd extends AppCompatActivity
                 Float.toString(rawDifficulty.getRating())       // Difficulty
         };
 
+        // Write to database
         datasource.open();
         datasource.createCard(data);
         datasource.close();
         cardCount++;
 
+        // Reset fields to null.
         rawCardName.setText("");
         rawQuestion.setText("");
         rawAnswer.setText("");
         rawDifficulty.setNumStars(0);
 
+        // Update counter
         TextView counter = (TextView) findViewById(R.id.card_counters);
         counter.setText("Card " + cardCount);
     }

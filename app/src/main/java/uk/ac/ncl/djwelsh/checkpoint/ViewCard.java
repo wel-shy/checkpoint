@@ -2,9 +2,6 @@ package uk.ac.ncl.djwelsh.checkpoint;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +13,9 @@ import android.view.MenuItem;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+/**
+ * Activity to view a card.
+ */
 public class ViewCard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -37,9 +37,12 @@ public class ViewCard extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // Get card
         card = (Card) getIntent().getParcelableExtra("card");
 
         getSupportActionBar().setTitle(card.getName());
+
+        // Set fields.
         TextView question = (TextView) findViewById(R.id.card_question);
         TextView answer = (TextView) findViewById(R.id.card_answer);
         RatingBar rating = (RatingBar) findViewById(R.id.card_rating_display);
@@ -96,7 +99,7 @@ public class ViewCard extends AppCompatActivity
                 startActivity(b);
                 break;
             case R.id.nav_results :
-                Intent c = new Intent(ViewCard.this, SubjectResults.class);
+                Intent c = new Intent(ViewCard.this, ViewQuizResults.class);
                 startActivity(c);
                 break;
         }

@@ -1,6 +1,7 @@
 package uk.ac.ncl.djwelsh.checkpoint;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -28,10 +29,12 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Activity to view all quiz results.
+ */
 public class ViewQuizResults extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Subject subject;
     Spinner subjectsList;
     List<Subject> subjects;
     XYSeries previousSeries;
@@ -56,6 +59,9 @@ public class ViewQuizResults extends AppCompatActivity
         SubjectsDataSource subjectsDB = new SubjectsDataSource(this);
         subjectsDB.open();
         subjects = subjectsDB.getAllSubjects();
+        subjectsDB.close();
+
+        // Map to spinner
         subjectsList = (Spinner) findViewById(R.id.subject_select);
         ArrayAdapter<Subject> subjectArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subjects);
         subjectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -65,16 +71,15 @@ public class ViewQuizResults extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                // Set spinner white
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+
                 // Get all quizzes
                 Subject sub = (Subject) parent.getItemAtPosition(position);
                 QuizDataSource quizDB = new QuizDataSource(ViewQuizResults.this);
                 quizDB.open();
                 List<Quiz> quizzes = quizDB.getQuizBySubject(String.valueOf(sub.getId()));
                 quizDB.close();
-
-                for (Quiz quiz : quizzes) {
-                    quiz.toString();
-                }
 
                 // set graph
                 TextView totalPointsView = (TextView) findViewById(R.id.total_points);
@@ -89,7 +94,6 @@ public class ViewQuizResults extends AppCompatActivity
                 while (i < quizzes.size()) {
                     System.out.println(quizzes.get(i));
                     totalSubjectPoints += quizzes.get(i).getPoints();
-//                    lastPlayed = quizzes.get(i).getDate();
                     scores.add(quizzes.get(i).getPoints());
                     System.out.println();
                     i++;
@@ -97,6 +101,8 @@ public class ViewQuizResults extends AppCompatActivity
                 int totalQuizzes = i;
 
                 // Set total points
+                TextView subHeader = (TextView) findViewById(R.id.sub_select_title);
+                subHeader.setText("Total " + sub.getName() + " points");
                 totalPointsView.setText(String.valueOf(totalSubjectPoints));
 
                 // create a couple arrays of y-values to plot:
@@ -105,10 +111,10 @@ public class ViewQuizResults extends AppCompatActivity
                     scoresArr[j] = scores.get(j);
                 }
 
+                // Reduce to five values
                 Integer[] plotData;
                 if(scoresArr.length > 5 ){
                      plotData = Arrays.copyOf(scoresArr, scoresArr.length - 5);
-                    System.out.println("Plot data length" + plotData.length);
                 } else {
                     plotData = scoresArr;
                 }
@@ -118,14 +124,13 @@ public class ViewQuizResults extends AppCompatActivity
                 XYSeries series1 = new SimpleXYSeries(Arrays.asList(plotData),
                         SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series1");
 
+                // Plot with formatters
                 MyLineAndPointFormatter format = new MyLineAndPointFormatter();
                 format.setInterpolationParams(new CatmullRomInterpolator.Params(20, CatmullRomInterpolator.Type.Centripetal));
                 plot.addSeries(series1, format);
 
                 previousSeries = series1;
                 plot.redraw();
-
-                System.out.println("graph set");
             }
 
             @Override
@@ -134,41 +139,34 @@ public class ViewQuizResults extends AppCompatActivity
             }
         });
 
-        // Get subject
-        subject = (Subject) getIntent().getParcelableExtra("subject");
-        if (subject != null) {
+        getSupportActionBar().setTitle("Results");
 
-            getSupportActionBar().setTitle(subject.getName() + " Results");
+        // Get all quizzes
+        QuizDataSource quizDB = new QuizDataSource(ViewQuizResults.this);
+        quizDB.open();
+        List<Quiz> quizzes = quizDB.getAllQuizzes();
+        quizDB.close();
 
-            QuizDataSource quizDB = new QuizDataSource(ViewQuizResults.this);
-            quizDB.open();
-            List<Quiz> quizzes = quizDB.getAllQuizzes();
-            quizDB.close();
-
-            Collections.sort(quizzes, new Comparator<Quiz>() {
-                @Override
-                public int compare(Quiz lhs, Quiz rhs) {
-                    Date datel = new Date(lhs.getDate());
-                    Date dater = new Date(rhs.getDate());
-                    return datel.compareTo(dater);
-                }
-            });
-
-            List<Quiz> quizResults = new ArrayList<Quiz>();
-            for (int i = quizzes.size() - 1; i > quizzes.size() - 5; i--) {
-                quizResults.add(quizzes.get(i));
+        // Sort by last played
+        Collections.sort(quizzes, new Comparator<Quiz>() {
+            @Override
+            public int compare(Quiz lhs, Quiz rhs) {
+                Date datel = new Date(lhs.getDate());
+                Date dater = new Date(rhs.getDate());
+                return datel.compareTo(dater);
             }
+        });
 
-            for (int i = 0; i < quizzes.size(); i++) {
-                Date date = new Date(quizzes.get(i).getDate());
-
-                System.out.println(date.toString());
-            }
-
-            TextView totalPointsView = (TextView) findViewById(R.id.total_points);
-            XYPlot plot = (XYPlot) findViewById(R.id.plot);
-            ViewQuizResults.drawPlot(quizResults, totalPointsView, plot);
+        // Add to data set
+        List<Quiz> quizResults = new ArrayList<Quiz>();
+        for (int i = quizzes.size() - 1; i > quizzes.size() - 6; i--) {
+            quizResults.add(quizzes.get(i));
         }
+
+        // Plot results
+        TextView totalPointsView = (TextView) findViewById(R.id.total_points);
+        XYPlot plot = (XYPlot) findViewById(R.id.plot);
+        ViewQuizResults.drawPlot(quizResults, totalPointsView, plot);
     }
 
     @Override
@@ -219,7 +217,7 @@ public class ViewQuizResults extends AppCompatActivity
                 startActivity(b);
                 break;
             case R.id.nav_results :
-                Intent c = new Intent(ViewQuizResults.this, SubjectResults.class);
+                Intent c = new Intent(ViewQuizResults.this, ViewQuizResults.class);
                 startActivity(c);
                 break;
         }
@@ -229,72 +227,14 @@ public class ViewQuizResults extends AppCompatActivity
         return true;
     }
 
-    public void viewAllResults(View view) {
-
-        Intent intent = new Intent(this, ViewAllResults.class);
-        intent.putExtra("subject", subject);
-        startActivity(intent);
-    }
-
-    public static XYSeries updatePlot(List<Quiz> quizzes, TextView totalPointsView, XYPlot plot, XYSeries series){
-
-        plot.removeSeries(series);
-
-        int totalQuizzes;
-        int totalSubjectPoints;
-        String lastPlayed;
-
-        // Plot graph
-        ArrayList<Integer> scores = new ArrayList<Integer>();
-        totalSubjectPoints = 0;
-        int i = 0;
-        while (i < quizzes.size()) {
-            System.out.println(quizzes.get(i));
-            totalSubjectPoints += quizzes.get(i).getPoints();
-            lastPlayed = quizzes.get(i).getDate();
-            scores.add(quizzes.get(i).getPoints());
-            System.out.println();
-            i++;
-        }
-        totalQuizzes = i;
-
-        // Set total points
-        totalPointsView.setText(String.valueOf(totalSubjectPoints));
-
-        // create a couple arrays of y-values to plot:
-        Integer[] scoresArr = new Integer[scores.size()];
-        for(int j = 0; j < scores.size(); j++) {
-            scoresArr[j] = scores.get(j);
-        }
-
-//        plot.clear();
-//        plot.redraw();
-
-        // turn the above arrays into XYSeries':
-        // (Y_VALS_ONLY means use the element index as the x value)
-        XYSeries series1 = new SimpleXYSeries(Arrays.asList(scoresArr),
-                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series1");
-
-        for (int j = 0; j < series1.size(); j++) {
-            System.out.println(series1.getY(j));
-        }
-
-        MyLineAndPointFormatter format = new MyLineAndPointFormatter();
-        format.setInterpolationParams(new CatmullRomInterpolator.Params(20, CatmullRomInterpolator.Type.Centripetal));
-        plot.addSeries(series1, format);
-
-        // reduce the number of range labels
-        plot.setTicksPerRangeLabel(3);
-        plot.setTicksPerDomainLabel(1);
-
-        // rotate domain labels 45 degrees to make them more compact horizontally:
-        plot.getGraphWidget().setDomainLabelOrientation(-45);
-
-        plot.getGraphWidget().setPaddingLeft(10);
-
-        return series1;
-    }
-
+    /**
+     * Draw a graph of previous quiz scores
+     *
+     * @param quizzes
+     * @param totalPointsView
+     * @param plot
+     * @return
+     */
     public static XYSeries drawPlot(List<Quiz> quizzes, TextView totalPointsView, XYPlot plot){
         int totalQuizzes;
         int totalSubjectPoints;

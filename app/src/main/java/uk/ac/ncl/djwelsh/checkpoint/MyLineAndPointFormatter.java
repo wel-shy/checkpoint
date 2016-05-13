@@ -10,15 +10,16 @@ import com.androidplot.xy.XYPlot;
 
 /**
  * Created by Daniel on 17/04/16.
+ *
+ * Taken from stack overflow. This class helps format the graph showing quiz results.
  */
 public class MyLineAndPointFormatter extends LineAndPointFormatter {
 
     private Paint strokePaint;
 
-    /**
-     * Some quick and dirty hard-coded params
-     */
+
     public MyLineAndPointFormatter() {
+        // Set line and marker colours.
         super(Color.WHITE, Color.WHITE, null, null);
         strokePaint = new Paint();
         strokePaint.setColor(Color.parseColor("#D1345B"));

@@ -19,7 +19,10 @@ public class SubjectsDataSource {
     private SQLiteDatabase database;
     private SQLHelper dbHelper;
 
-    private String[] allColumns = { SQLHelper.SUBJECTS_COLUMN_ID, SQLHelper.SUBJECTS_COLUMN_NAME };
+    private String[] allColumns = {
+            SQLHelper.SUBJECTS_COLUMN_ID,
+            SQLHelper.SUBJECTS_COLUMN_NAME
+    };
 
     public SubjectsDataSource(Context context) {
 
@@ -35,15 +38,17 @@ public class SubjectsDataSource {
         dbHelper.close();
     }
 
+    /**
+     * Save subject to database.
+     *
+     * @param name
+     * @return
+     */
     public Subject createSubject(String name) {
 
         ContentValues values = new ContentValues();
         values.put(SQLHelper.SUBJECTS_COLUMN_NAME, name);
         values.put(SQLHelper.SUBJECTS_COLUMN_SCORE, "0");
-
-//        Cursor c = database.rawQuery("SELECT sql FROM sqlite_master WHERE tbl_name = 'subjects' AND quizType = 'table'", null);
-//        c.moveToFirst();
-//        System.out.println("____________________" + c.getString(0));
 
         long insertId = database.insert(SQLHelper.TABLE_SUBJECTS, null, values);
 
@@ -56,13 +61,23 @@ public class SubjectsDataSource {
         return newSubject;
     }
 
+    /**
+     * Delete subject.
+     *
+     * @param subject
+     */
     public void deleteSubject(Subject subject) {
         long id = subject.getId();
-        System.out.println("Comment deleted with id: " + id);
         database.delete(SQLHelper.TABLE_SUBJECTS, SQLHelper.SUBJECTS_COLUMN_ID
                 + " = " + id, null);
     }
 
+    /**
+     * Get subject by ID
+     *
+     * @param id
+     * @return
+     */
     public Subject getSubject(long id) {
 
         Subject subject = null;
@@ -75,10 +90,14 @@ public class SubjectsDataSource {
             cursor.close();
         }
 
-//        System.out.println(subject.toString());
         return subject;
     }
 
+    /**
+     * Get all subjects.
+     *
+     * @return
+     */
     public List<Subject> getAllSubjects() {
         List<Subject> comments = new ArrayList<Subject>();
 
@@ -96,6 +115,12 @@ public class SubjectsDataSource {
         return comments;
     }
 
+    /**
+     * Translate cursor to subject.
+     *
+     * @param cursor
+     * @return
+     */
     private Subject cursorToSubject(Cursor cursor) {
         Subject subject = new Subject();
         subject.setId(cursor.getLong(0));

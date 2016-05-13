@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+/**
+ * Activity that manages playing the quiz.
+ */
 public class PlayQuiz extends AppCompatActivity {
 
     private Quiz quiz;
@@ -58,7 +61,7 @@ public class PlayQuiz extends AppCompatActivity {
                 timer = new CountDownTimer(120000, 1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
-                        String remaining = "seconds remaining: " + millisUntilFinished / 1000;
+                        String remaining = "" + millisUntilFinished / 1000;
                         timeRemaining.setText(remaining);
                     }
 
@@ -73,14 +76,10 @@ public class PlayQuiz extends AppCompatActivity {
 
             case "random":
 
-                System.out.println("RANDOM DECK TO STRING");
-                System.out.println(quiz.getDeck().toString());
                 break;
 
             case "easiestToHardest":
 
-                System.out.println("ETH DECK TO STRING");
-                System.out.println(quiz.getDeck().toString());
                 break;
         }
     }

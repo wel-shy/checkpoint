@@ -7,7 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -65,13 +64,15 @@ public class CardsDataSource {
      * @return
      */
     public Card createCard(String[] data) {
+
         ContentValues values = new ContentValues();
 
-        System.out.println(Arrays.toString(data));
+        // Parse data to content values.
         for (int i = 1; i < allColumns.length - 1; i++) {
             values.put(allColumns[i], data[i - 1]);
         }
 
+        // Assign to columns
         values.put(allColumns[1], data[0]); // name
         values.put(allColumns[2], data[1]); // question
         values.put(allColumns[3], data[2]); // answer
@@ -80,13 +81,17 @@ public class CardsDataSource {
         values.put(allColumns[6], data[5]); // subject
         values.put(allColumns[7], data[6]); // rating
 
+        // Add to database
         long insertId = database.insert(SQLHelper.TABLE_CARDS, null, values);
+
+        // Get card
         Cursor cursor = database.query(SQLHelper.TABLE_CARDS,
                 allColumns, SQLHelper.CARDS_COLUMN_ID + " = " + insertId, null,
                 null, null, null);
         cursor.moveToFirst();
         Card newCard = cursorToCard(cursor);
         cursor.close();
+
         return newCard;
     }
 
@@ -112,20 +117,15 @@ public class CardsDataSource {
 
         Card card = null;
 
-        System.out.println("Card search id: " + id);
-
+        // Get card
         String query = "SELECT * FROM " + SQLHelper.TABLE_CARDS + " WHERE " + SQLHelper.CARDS_COLUMN_ID + " = " + String.valueOf(id);
         Cursor cursor = database.rawQuery(query, null);
 
-//        Cursor cursor = database.query(SQLHelper.TABLE_CARDS, new String[]{String.valueOf(id)}, "where", null, null, null, null);
-
+        // Parse result to card.
         if( cursor != null && cursor.moveToFirst() ) {
             card = cursorToCard(cursor);
             cursor.close();
         }
-
-        System.out.println("Searching CARD::::::::");
-        System.out.println(card.toString());
         return card;
     }
 
@@ -137,9 +137,11 @@ public class CardsDataSource {
     public List<Card> getAllCards() {
         List<Card> cards = new ArrayList<Card>();
 
+        // Get all cards
         Cursor cursor = database.query(SQLHelper.TABLE_CARDS,
                 allColumns, null, null, null, null, null);
 
+        // Parse results into a list of cards.
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Card card = cursorToCard(cursor);
@@ -204,13 +206,13 @@ public class CardsDataSource {
     private Card cursorToCard(Cursor cursor) {
         Card card = new Card();
 
+        // Set a cards values from a cursor.
         card.setId(cursor.getLong(0));
         card.setName(cursor.getString(cursor.getColumnIndex(SQLHelper.CARDS_COLUMN_NAME)));
         card.setQuestion(cursor.getString(cursor.getColumnIndex(SQLHelper.CARDS_COLUMN_QUESTION)));
         card.setAnswer(cursor.getString(cursor.getColumnIndex(SQLHelper.CARDS_COLUMN_ANSWER)));
         card.setNumCorrect(Integer.valueOf(cursor.getString(cursor.getColumnIndex(SQLHelper.CARDS_COLUMN_CORRECT_COUNT))));
         card.setNumIncorrect(Integer.valueOf(cursor.getString(cursor.getColumnIndex(SQLHelper.CARDS_COLUMN_INCORRECT_COUNT))));
-        System.out.println("CURSOR 7: " + cursor.getString(7));
         card.setSubject(cursor.getString(cursor.getColumnIndex(SQLHelper.CARDS_COLUMN_SUBJECT)));
         card.setRating(cursor.getString(cursor.getColumnIndex(SQLHelper.CARDS_COLUMN_RATING)));
 

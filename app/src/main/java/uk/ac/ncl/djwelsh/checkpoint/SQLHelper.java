@@ -7,7 +7,7 @@ import android.util.Log;
 
 /**
  * Created by Daniel on 27/03/16.
- * <p/>
+ *
  * Class to help SQLite Database usage.
  */
 public class SQLHelper extends SQLiteOpenHelper {
@@ -17,6 +17,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     public static final String SUBJECTS_COLUMN_ID = "_id";
     public static final String SUBJECTS_COLUMN_NAME = "name";
     public static final String SUBJECTS_COLUMN_SCORE = "score";
+
     //Cards
     public static final String TABLE_CARDS = "cards";
     public static final String CARDS_COLUMN_ID = "_id";
@@ -27,6 +28,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     public static final String CARDS_COLUMN_CORRECT_COUNT = "correct_count";
     public static final String CARDS_COLUMN_INCORRECT_COUNT = "incorrect_count";
     public static final String CARDS_COLUMN_SUBJECT = "subject";
+
     //Quiz
     public static final String TABLE_QUIZZES = "quizzes";
     public static final String QUIZZES_COLUMN_ID = "_id";
@@ -36,6 +38,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     public static final String QUIZZES_COLUMN_DATE = "date";
     public static final String QUIZZES_COLUMN_CORRECT_COUNT = "correct_count";
     public static final String QUIZZES_COLUMN_INCORRECT_COUNT = "incorrect_count";
+
     //DB
     private static final String DATABASE_NAME = "cards.db";
     private static final int DATABASE_VERSION = 6;

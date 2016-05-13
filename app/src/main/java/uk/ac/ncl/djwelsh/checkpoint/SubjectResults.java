@@ -29,6 +29,8 @@ public class SubjectResults extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setTitle("Subject Results");
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -43,7 +45,7 @@ public class SubjectResults extends AppCompatActivity
 
         final List<Subject> subjects = subDB.getAllSubjects();
         subDB.close();
-        ArrayAdapter<Subject> adapter = new ArrayAdapter<Subject>(this, android.R.layout.simple_list_item_1, subjects);
+        ArrayAdapter<Subject> adapter = new ArrayAdapter<Subject>(this, R.layout.white_list_item, subjects);
         ListView listView = (ListView) findViewById(R.id.all_subject_results);
         listView.setAdapter(adapter);
 
@@ -112,7 +114,7 @@ public class SubjectResults extends AppCompatActivity
                 startActivity(b);
                 break;
             case R.id.nav_results :
-                Intent c = new Intent(SubjectResults.this, SubjectResults.class);
+                Intent c = new Intent(SubjectResults.this, ViewQuizResults.class);
                 startActivity(c);
                 break;
         }
