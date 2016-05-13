@@ -99,7 +99,7 @@ public class ViewCard extends AppCompatActivity
                 startActivity(b);
                 break;
             case R.id.nav_results :
-                Intent c = new Intent(ViewCard.this, ViewQuizResults.class);
+                Intent c = new Intent(ViewCard.this, SubjectResults.class);
                 startActivity(c);
                 break;
         }

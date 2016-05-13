@@ -104,7 +104,7 @@ public class ChooseQuiz extends AppCompatActivity
                 startActivity(b);
                 break;
             case R.id.nav_results :
-                Intent c = new Intent(ChooseQuiz.this, ViewQuizResults.class);
+                Intent c = new Intent(ChooseQuiz.this, SubjectResults.class);
                 startActivity(c);
                 break;
         }

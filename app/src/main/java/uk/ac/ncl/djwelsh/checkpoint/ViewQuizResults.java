@@ -1,7 +1,6 @@
 package uk.ac.ncl.djwelsh.checkpoint;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,9 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -38,6 +34,7 @@ public class ViewQuizResults extends AppCompatActivity
     Spinner subjectsList;
     List<Subject> subjects;
     XYSeries previousSeries;
+    Subject subject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,96 +52,113 @@ public class ViewQuizResults extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        subject = (Subject) getIntent().getParcelableExtra("subject");
+
         // Get all subjects
-        SubjectsDataSource subjectsDB = new SubjectsDataSource(this);
-        subjectsDB.open();
-        subjects = subjectsDB.getAllSubjects();
-        subjectsDB.close();
-
-        // Map to spinner
-        subjectsList = (Spinner) findViewById(R.id.subject_select);
-        ArrayAdapter<Subject> subjectArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subjects);
-        subjectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        subjectsList.setAdapter(subjectArrayAdapter);
-
-        subjectsList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                // Set spinner white
-                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
-
-                // Get all quizzes
-                Subject sub = (Subject) parent.getItemAtPosition(position);
-                QuizDataSource quizDB = new QuizDataSource(ViewQuizResults.this);
-                quizDB.open();
-                List<Quiz> quizzes = quizDB.getQuizBySubject(String.valueOf(sub.getId()));
-                quizDB.close();
-
-                // set graph
-                TextView totalPointsView = (TextView) findViewById(R.id.total_points);
-                XYPlot plot = (XYPlot) findViewById(R.id.plot);
-
-                plot.removeSeries(previousSeries);
-
-                // Plot graph
-                ArrayList<Integer> scores = new ArrayList<Integer>();
-                int totalSubjectPoints = 0;
-                int i = 0;
-                while (i < quizzes.size()) {
-                    System.out.println(quizzes.get(i));
-                    totalSubjectPoints += quizzes.get(i).getPoints();
-                    scores.add(quizzes.get(i).getPoints());
-                    System.out.println();
-                    i++;
-                }
-                int totalQuizzes = i;
-
-                // Set total points
-                TextView subHeader = (TextView) findViewById(R.id.sub_select_title);
-                subHeader.setText("Total " + sub.getName() + " points");
-                totalPointsView.setText(String.valueOf(totalSubjectPoints));
-
-                // create a couple arrays of y-values to plot:
-                Integer[] scoresArr = new Integer[scores.size()];
-                for(int j = 0; j < scores.size(); j++) {
-                    scoresArr[j] = scores.get(j);
-                }
-
-                // Reduce to five values
-                Integer[] plotData;
-                if(scoresArr.length > 5 ){
-                     plotData = Arrays.copyOf(scoresArr, scoresArr.length - 5);
-                } else {
-                    plotData = scoresArr;
-                }
-
-                // turn the above arrays into XYSeries':
-                // (Y_VALS_ONLY means use the element index as the x value)
-                XYSeries series1 = new SimpleXYSeries(Arrays.asList(plotData),
-                        SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series1");
-
-                // Plot with formatters
-                MyLineAndPointFormatter format = new MyLineAndPointFormatter();
-                format.setInterpolationParams(new CatmullRomInterpolator.Params(20, CatmullRomInterpolator.Type.Centripetal));
-                plot.addSeries(series1, format);
-
-                previousSeries = series1;
-                plot.redraw();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        SubjectsDataSource subjectsDB = new SubjectsDataSource(this);
+//        subjectsDB.open();
+//        subjects = subjectsDB.getAllSubjects();
+//        subjectsDB.close();
+//
+//        subjects.add(0, new Subject(0, "Select A Subject"));
+//
+//        // Map to spinner
+//        subjectsList = (Spinner) findViewById(R.id.subject_select);
+//        ArrayAdapter<Subject> subjectArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subjects);
+//        subjectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        subjectsList.setAdapter(subjectArrayAdapter);
+//
+//        subjectsList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//                // Set spinner white
+//                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+//
+//                // Get all quizzes
+//                Subject sub = (Subject) parent.getItemAtPosition(position);
+//                QuizDataSource quizDB = new QuizDataSource(ViewQuizResults.this);
+//                quizDB.open();
+//                List<Quiz> quizzes = quizDB.getQuizBySubject(String.valueOf(sub.getId()));
+//                quizDB.close();
+//
+//                // set graph
+//                TextView totalPointsView = (TextView) findViewById(R.id.total_points);
+//                XYPlot plot = (XYPlot) findViewById(R.id.plot);
+//
+//                plot.removeSeries(previousSeries);
+//
+//                // Plot graph
+//                ArrayList<Integer> scores = new ArrayList<Integer>();
+//                int totalSubjectPoints = 0;
+//                int i = 0;
+//                while (i < quizzes.size()) {
+//                    totalSubjectPoints += quizzes.get(i).getPoints();
+//                    scores.add(quizzes.get(i).getPoints());
+//                    i++;
+//                }
+//                int totalQuizzes = i;
+//
+//                // Set total points
+//                if (sub.getId() != 0) {
+//                    TextView subHeader = (TextView) findViewById(R.id.sub_select_title);
+//                    subHeader.setText("Total " + sub.getName() + " points");
+//                    totalPointsView.setText(String.valueOf(totalSubjectPoints));
+//                } else {
+//                    TextView subHeader = (TextView) findViewById(R.id.sub_select_title);
+//                    subHeader.setText("");
+//                    totalPointsView.setText(String.valueOf(""));
+//                }
+//
+//                // create a couple arrays of y-values to plot:
+//                Integer[] scoresArr = new Integer[scores.size()];
+//                for(int j = 0; j < scores.size(); j++) {
+//                    scoresArr[j] = scores.get(j);
+//                    System.out.println(scoresArr[j]);
+//                }
+//
+//                // Reduce to five values
+//                Integer[] plotData;
+//                if(scoresArr.length > 5 ){
+//
+//                    ArrayList<Integer> temp = new ArrayList<Integer>();
+//                    for (int j = scoresArr.length - 1; j > scoresArr.length - 6; j--) {
+//
+//                    }
+//                    plotData = temp.toArray(new Integer[temp.size()]);
+//                    System.out.println("REDUCED");
+//                } else {
+//                    plotData = scoresArr;
+//                }
+//
+//                // turn the above arrays into XYSeries':
+//                // (Y_VALS_ONLY means use the element index as the x value)
+//                XYSeries series1 = new SimpleXYSeries(Arrays.asList(plotData),
+//                        SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series1");
+//
+//                // Plot with formatters
+//                MyLineAndPointFormatter format = new MyLineAndPointFormatter();
+//                format.setInterpolationParams(new CatmullRomInterpolator.Params(20, CatmullRomInterpolator.Type.Centripetal));
+//                plot.addSeries(series1, format);
+//
+//                previousSeries = series1;
+//                plot.redraw();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
         getSupportActionBar().setTitle("Results");
 
         // Get all quizzes
         QuizDataSource quizDB = new QuizDataSource(ViewQuizResults.this);
         quizDB.open();
-        List<Quiz> quizzes = quizDB.getAllQuizzes();
+//        List<Quiz> quizzes = quizDB.getAllQuizzes();
+        List<Quiz> quizzes = quizDB.getQuizBySubject(String.valueOf(subject.getId()));
+
         quizDB.close();
 
         // Sort by last played
@@ -159,8 +173,13 @@ public class ViewQuizResults extends AppCompatActivity
 
         // Add to data set
         List<Quiz> quizResults = new ArrayList<Quiz>();
-        for (int i = quizzes.size() - 1; i > quizzes.size() - 6; i--) {
-            quizResults.add(quizzes.get(i));
+        if (quizzes.size() > 5) {
+            for (int i = quizzes.size() - 1; i > quizzes.size() - 6; i--) {
+                System.out.println(quizzes.get(i));
+                quizResults.add(quizzes.get(i));
+            }
+        } else {
+            quizResults = quizzes;
         }
 
         // Plot results
@@ -217,7 +236,7 @@ public class ViewQuizResults extends AppCompatActivity
                 startActivity(b);
                 break;
             case R.id.nav_results :
-                Intent c = new Intent(ViewQuizResults.this, ViewQuizResults.class);
+                Intent c = new Intent(ViewQuizResults.this, SubjectResults.class);
                 startActivity(c);
                 break;
         }
@@ -245,11 +264,9 @@ public class ViewQuizResults extends AppCompatActivity
         totalSubjectPoints = 0;
         int i = 0;
         while (i < quizzes.size()) {
-            System.out.println(quizzes.get(i));
             totalSubjectPoints += quizzes.get(i).getPoints();
             lastPlayed = quizzes.get(i).getDate();
             scores.add(quizzes.get(i).getPoints());
-            System.out.println();
             i++;
         }
         totalQuizzes = i;

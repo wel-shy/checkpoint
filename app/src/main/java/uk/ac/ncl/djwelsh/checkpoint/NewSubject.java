@@ -84,7 +84,7 @@ public class NewSubject extends AppCompatActivity
                 startActivity(b);
                 break;
             case R.id.nav_results :
-                Intent c = new Intent(NewSubject.this, ViewQuizResults.class);
+                Intent c = new Intent(NewSubject.this, SubjectResults.class);
                 startActivity(c);
                 break;
         }
